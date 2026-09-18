@@ -669,6 +669,45 @@ button,select,input{font-family:inherit}
   </div>
 </div>
 
+<!-- Out-of-Stock Options -->
+<div class="modal-bd" id="modal-oos">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">Out of Stock</div>
+        <div id="oos-prod-name" style="font-size:12px;color:var(--t3);margin-top:2px"></div>
+      </div>
+      <button class="close-btn" onclick="closeModal('modal-oos')">×</button>
+    </div>
+    <div class="modal-body" style="padding:16px">
+      <p style="font-size:13px;color:var(--t2);margin-bottom:16px">This product has no stock. What would you like to do?</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button onclick="oosRestock()" style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);cursor:pointer;text-align:left;width:100%;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--ok)" stroke-width="2" style="flex-shrink:0"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+          <div>
+            <div style="font-weight:700;font-size:13px;color:var(--t1)">Restock this product</div>
+            <div style="font-size:11.5px;color:var(--t3);margin-top:2px">Update stock quantity for the existing product</div>
+          </div>
+        </button>
+        <button onclick="oosAddNew()" style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);cursor:pointer;text-align:left;width:100%;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2" style="flex-shrink:0"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <div>
+            <div style="font-weight:700;font-size:13px;color:var(--t1)">Add as new product</div>
+            <div style="font-size:11.5px;color:var(--t3);margin-top:2px">Keep old record, add a different product</div>
+          </div>
+        </button>
+        <button onclick="oosReplaceDelete()" style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--surface);border:1.5px solid var(--err-bg);border-radius:var(--r);cursor:pointer;text-align:left;width:100%;transition:border-color .15s" onmouseover="this.style.borderColor='var(--err)'" onmouseout="this.style.borderColor='var(--err-bg)'">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--err)" stroke-width="2" style="flex-shrink:0"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          <div>
+            <div style="font-weight:700;font-size:13px;color:var(--err)">Delete old &amp; add new product</div>
+            <div style="font-size:11.5px;color:var(--t3);margin-top:2px">Remove this product and replace with a new one</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Restock -->
 <div class="modal-bd" id="modal-restock">
   <div class="modal" style="max-width:360px">
@@ -1203,7 +1242,7 @@ function itemSearchKey(e) {
     const p = val ? products.find(x => x.barcode && x.barcode === val) : null;
     if (p) {
       e.preventDefault();
-      if (p.stock <= 0) { showToast(p.name + ' is out of stock', 'warn'); return; }
+      if (p.stock <= 0) { showOosModal(p.id); return; }
       pickItem(p.id);
     }
   }
@@ -1242,7 +1281,7 @@ document.addEventListener('click', e => {
         if (p) {
           e.preventDefault();
           e.stopPropagation();
-          if (p.stock <= 0) { showToast(p.name + ' is out of stock', 'warn'); return; }
+          if (p.stock <= 0) { showOosModal(p.id); return; }
           pickItem(p.id);
           showToast('Scanned: ' + p.name, 'ok');
           return;
@@ -1461,6 +1500,41 @@ function saveSettings() {
   document.getElementById('sb-store-name').textContent = settings.storeName;
   closeModal('modal-settings');
   showToast('Settings saved', 'ok');
+}
+
+// ── Out-of-stock options ───────────────────────────────
+let _oosId = null;
+
+function showOosModal(productId) {
+  const p = products.find(x => x.id === productId);
+  if (!p) return;
+  _oosId = productId;
+  document.getElementById('oos-prod-name').textContent = p.name;
+  openModal('modal-oos');
+}
+
+function oosRestock() {
+  closeModal('modal-oos');
+  navigate('inventory');
+  setTimeout(() => openEditProduct(_oosId), 80);
+}
+
+function oosAddNew() {
+  closeModal('modal-oos');
+  navigate('inventory');
+  setTimeout(() => openAddProduct(), 80);
+}
+
+function oosReplaceDelete() {
+  const p = products.find(x => x.id === _oosId);
+  if (!p) return;
+  if (!confirm('Delete "' + p.name + '" and open the Add Product form?')) return;
+  products = products.filter(x => x.id !== _oosId);
+  saveData();
+  closeModal('modal-oos');
+  showToast(p.name + ' deleted', '');
+  navigate('inventory');
+  setTimeout(() => openAddProduct(), 80);
 }
 
 // ── Auth ──────────────────────────────────────────────
