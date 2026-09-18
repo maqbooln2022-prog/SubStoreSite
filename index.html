@@ -62,17 +62,22 @@ button,select,input{font-family:inherit}
 
 .page{padding:24px 26px;flex:1;display:none}
 .page.active{display:block}
+.page.page-newsale.active{display:flex;flex-direction:column}
 
 /* Stats */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
-.stat-tile{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:18px 20px;box-shadow:var(--sh0)}
-.stat-tile-label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:9px}
-.stat-tile-val{font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1;color:var(--t1)}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stat-tile{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:28px 24px 24px;box-shadow:var(--sh0);cursor:pointer;transition:box-shadow .18s,transform .14s,border-color .18s;position:relative;overflow:hidden;text-decoration:none;display:block}
+.stat-tile:hover{box-shadow:var(--sh2);transform:translateY(-2px);border-color:var(--accent)}
+.stat-tile:active{transform:translateY(0)}
+.stat-tile-label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:12px}
+.stat-tile-val{font-size:36px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1;color:var(--t1)}
 .stat-tile-val.accent{color:var(--accent-d)}
 .stat-tile-val.ok{color:var(--ok)}
 .stat-tile-val.warn{color:var(--warn)}
 .stat-tile-val.err{color:var(--err)}
-.stat-tile-sub{font-size:11.5px;color:var(--t3);margin-top:5px;font-weight:400}
+.stat-tile-sub{font-size:12px;color:var(--t3);margin-top:8px;font-weight:400}
+.stat-tile-arrow{position:absolute;bottom:16px;right:18px;font-size:18px;color:var(--border);transition:color .18s,right .14s}
+.stat-tile:hover .stat-tile-arrow{color:var(--accent);right:14px}
 
 /* Dashboard grid */
 .dash-grid{display:grid;grid-template-columns:1fr 320px;gap:18px}
@@ -288,7 +293,6 @@ button,select,input{font-family:inherit}
 /* Responsive */
 @media(max-width:1000px){
   .stats-row{grid-template-columns:repeat(2,1fr)}
-  .dash-grid{grid-template-columns:1fr}
 }
 @media(max-width:700px){
   .sidebar{transform:translateX(-100%)}
@@ -367,46 +371,29 @@ button,select,input{font-family:inherit}
   <!-- DASHBOARD -->
   <div class="page active" id="page-dashboard">
     <div class="stats-row">
-      <div class="stat-tile">
+      <div class="stat-tile" onclick="navigate('history')" title="View sales history">
         <div class="stat-tile-label">Today's Revenue</div>
         <div class="stat-tile-val accent" id="d-revenue">₹0</div>
         <div class="stat-tile-sub" id="d-revenue-sub">No sales yet today</div>
+        <div class="stat-tile-arrow">→</div>
       </div>
-      <div class="stat-tile">
+      <div class="stat-tile" onclick="navigate('history')" title="View today's bills">
         <div class="stat-tile-label">Bills Today</div>
         <div class="stat-tile-val ok" id="d-bills">0</div>
         <div class="stat-tile-sub" id="d-bills-sub">transactions</div>
+        <div class="stat-tile-arrow">→</div>
       </div>
-      <div class="stat-tile">
+      <div class="stat-tile" onclick="navigate('history')" title="View sold items">
         <div class="stat-tile-label">Items Sold</div>
         <div class="stat-tile-val" id="d-items">0</div>
         <div class="stat-tile-sub">units today</div>
+        <div class="stat-tile-arrow">→</div>
       </div>
-      <div class="stat-tile">
+      <div class="stat-tile" onclick="navigate('inventory')" title="Check low stock products">
         <div class="stat-tile-label">Low Stock Alerts</div>
         <div class="stat-tile-val warn" id="d-low">0</div>
         <div class="stat-tile-sub">products need restock</div>
-      </div>
-    </div>
-    <div class="dash-grid">
-      <div>
-        <div class="sec-head">
-          <div class="sec-title">Recent Bills</div>
-          <button class="btn btn-ghost btn-sm" onclick="navigate('history')">View all →</button>
-        </div>
-        <div class="tcard" id="d-recent-table">
-          <table>
-            <thead><tr><th>Bill No.</th><th>Customer</th><th>Items</th><th>Total</th><th>Time</th></tr></thead>
-            <tbody id="d-recent-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-      <div>
-        <div class="sec-head">
-          <div class="sec-title">Low Stock Alerts</div>
-          <button class="btn btn-ghost btn-sm" onclick="navigate('inventory')">Manage →</button>
-        </div>
-        <div class="alert-list" id="d-alerts"></div>
+        <div class="stat-tile-arrow">→</div>
       </div>
     </div>
   </div>
@@ -436,7 +423,7 @@ button,select,input{font-family:inherit}
   </div>
 
   <!-- NEW SALE -->
-  <div class="page" id="page-newsale" style="padding:16px;height:calc(100vh - 54px);display:flex;flex-direction:column">
+  <div class="page page-newsale" id="page-newsale" style="padding:16px;height:calc(100vh - 54px)">
     <div class="billing-wrap" style="flex:1">
       <div class="billing-panel">
         <!-- Header -->
@@ -873,36 +860,6 @@ function renderDashboard() {
   document.getElementById('d-bills-sub').textContent = todaySales.length === 1 ? 'transaction' : 'transactions';
   document.getElementById('d-items').textContent = items;
   document.getElementById('d-low').textContent = lowProds.length;
-
-  // Recent bills (last 8)
-  const recent = [...sales].sort((a,b) => b.ts-a.ts).slice(0,8);
-  const tbody = document.getElementById('d-recent-tbody');
-  if (!recent.length) {
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--t3);padding:24px">No bills yet. <a style="color:var(--accent-d);cursor:pointer;font-weight:700" onclick="navigate(\'newsale\')">Create first sale →</a></td></tr>';
-  } else {
-    tbody.innerHTML = recent.map(s => `
-      <tr>
-        <td><span class="bill-no-badge">${s.billNo}</span></td>
-        <td style="font-weight:600">${s.customer||'Walk-in'}</td>
-        <td style="color:var(--t3)">${s.items.length} item${s.items.length>1?'s':''}</td>
-        <td style="font-weight:700;font-variant-numeric:tabular-nums;color:var(--accent-d)">${inr(s.total)}</td>
-        <td style="color:var(--t3);font-size:12px">${isToday(s.ts)?fmt_time(s.ts):fmt_date(s.ts)}</td>
-      </tr>`).join('');
-  }
-
-  // Alerts
-  const alertsEl = document.getElementById('d-alerts');
-  if (!lowProds.length) {
-    alertsEl.innerHTML = '<div class="alert-item" style="border-left-color:var(--ok)"><div><div class="alert-item-name" style="color:var(--ok)">All items well stocked</div><div class="alert-item-info">No restock needed right now</div></div></div>';
-  } else {
-    alertsEl.innerHTML = lowProds.map(p => {
-      const isCrit = p.stock <= 0;
-      return `<div class="alert-item ${isCrit?'crit':''}" onclick="navigate('inventory')" style="cursor:pointer">
-        <div><div class="alert-item-name">${p.name}</div><div class="alert-item-info">${p.cat} · Min: ${p.minStock}</div></div>
-        <div class="alert-item-stk">${isCrit?'Out of stock':'Only '+p.stock+' left'}</div>
-      </div>`;
-    }).join('');
-  }
 }
 
 // ── Inventory ─────────────────────────────────────────
