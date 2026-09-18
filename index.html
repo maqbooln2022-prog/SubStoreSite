@@ -45,6 +45,10 @@ button,select,input{font-family:inherit}
 .nav-item.active{background:var(--sb-act);color:var(--sb-ta);border-left-color:var(--accent)}
 .nav-item svg{flex-shrink:0;width:16px;height:16px;opacity:.7}
 .nav-item.active svg,.nav-item:hover svg{opacity:1}
+.sb-user{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04)}
+.sb-user-initial{width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0;text-transform:uppercase;letter-spacing:0}
+.sb-user-name{font-size:12.5px;font-weight:700;color:var(--sb-ta);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-user-email{font-size:10px;color:var(--sb-t);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sb-bottom{padding:14px 18px;border-top:1px solid rgba(255,255,255,0.08)}
 .sb-stat-row{display:flex;justify-content:space-between;padding:3px 0}
 .sb-stat-label{font-size:11px;color:var(--sb-t)}
@@ -351,6 +355,13 @@ button,select,input{font-family:inherit}
   <div class="sb-logo">
     <div class="store-name" id="sb-store-name">Sharma Kirana Store</div>
     <div class="store-sub">Daily Ledger &amp; Billing</div>
+  </div>
+  <div class="sb-user" id="sb-user" style="display:none">
+    <div class="sb-user-initial" id="sb-user-initial">?</div>
+    <div style="min-width:0">
+      <div class="sb-user-name" id="sb-user-name"></div>
+      <div class="sb-user-email" id="sb-user-email"></div>
+    </div>
   </div>
   <div class="sb-nav">
     <div class="nav-section-label">Main</div>
@@ -1475,6 +1486,12 @@ function showApp() {
     document.getElementById('user-dd-email').textContent = _authUser.email;
     const logoutBtn = document.getElementById('sb-logout-btn');
     if (logoutBtn) logoutBtn.style.display = 'flex';
+    // Sidebar user chip
+    const sbUser = document.getElementById('sb-user');
+    if (sbUser) sbUser.style.display = 'flex';
+    document.getElementById('sb-user-initial').textContent = _authUser.name.trim().charAt(0).toUpperCase();
+    document.getElementById('sb-user-name').textContent  = _authUser.name;
+    document.getElementById('sb-user-email').textContent = _authUser.email;
   }
   doInit();
 }
