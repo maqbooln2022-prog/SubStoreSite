@@ -64,9 +64,9 @@ button,select,input{font-family:inherit}
 .topbar-date{font-size:12px;color:var(--t3);font-weight:400}
 .hamburger{display:none;align-items:center;justify-content:center;padding:7px;background:none;border:1px solid var(--border);border-radius:var(--rs);cursor:pointer;color:var(--t2)}
 
-.page{padding:24px 26px;flex:1;display:none}
+.page{padding:24px 26px;flex:1;display:none;box-sizing:border-box}
 .page.active{display:block}
-.page.page-newsale.active{display:flex;flex-direction:column;overflow:hidden}
+.page.page-newsale.active{display:flex;flex-direction:column;overflow:hidden;padding:16px;height:calc(100vh - 54px)}
 
 /* Stats */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
@@ -173,7 +173,7 @@ button,select,input{font-family:inherit}
 .add-item-input{width:100%;padding:11px 14px 11px 40px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);font-size:14px;color:var(--t1);outline:none;transition:border-color .15s}
 .add-item-input:focus{border-color:var(--accent);background:var(--surface)}
 .add-item-input::placeholder{color:var(--t3)}
-.search-ico{position:absolute;left:32px;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none;margin-top:9px}
+.search-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none}
 .item-dropdown{position:absolute;top:calc(100% - 2px);left:20px;right:20px;background:var(--surface);border:1.5px solid var(--accent);border-top:none;border-radius:0 0 var(--r) var(--r);box-shadow:var(--sh2);z-index:300;display:none;max-height:280px;overflow-y:auto}
 .item-dropdown.open{display:block}
 .item-opt{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;transition:background .12s;gap:12px}
@@ -494,7 +494,7 @@ button,select,input{font-family:inherit}
   </div>
 
   <!-- NEW SALE -->
-  <div class="page page-newsale" id="page-newsale" style="padding:16px;height:calc(100vh - 54px)">
+  <div class="page page-newsale" id="page-newsale">
     <div class="billing-wrap">
       <div class="billing-panel">
         <!-- Header -->
