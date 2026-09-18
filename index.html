@@ -162,7 +162,7 @@ button,select,input{font-family:inherit}
 .close-btn:hover{color:var(--t1)}
 
 /* Billing page — full screen */
-.billing-wrap{height:calc(100vh - 54px);display:flex;flex-direction:column}
+.billing-wrap{flex:1;display:flex;flex-direction:column;min-height:0}
 .billing-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);box-shadow:var(--sh1);overflow:hidden;display:flex;flex-direction:column;flex:1}
 .billing-top{padding:14px 20px;border-bottom:1px solid var(--border);background:var(--surface-2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .billing-title{font-family:'Libre Baskerville',Georgia,serif;font-size:15px;font-weight:700}
@@ -495,7 +495,7 @@ button,select,input{font-family:inherit}
 
   <!-- NEW SALE -->
   <div class="page page-newsale" id="page-newsale" style="padding:16px;height:calc(100vh - 54px)">
-    <div class="billing-wrap" style="flex:1">
+    <div class="billing-wrap">
       <div class="billing-panel">
         <!-- Header -->
         <div class="billing-top">
