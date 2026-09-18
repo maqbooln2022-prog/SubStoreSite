@@ -1040,7 +1040,10 @@ function renderInventory() {
       <td style="color:var(--t3);font-variant-numeric:tabular-nums">${p.cost ? inr(p.cost) : '—'}</td>
       <td>
         <div style="display:flex;gap:6px">
-          <button class="btn btn-primary btn-sm" onclick="openRestock('${p.id}')">Restock</button>
+          ${p.stock <= 0
+            ? `<button class="btn btn-sm" onclick="showOosModal('${p.id}')" style="background:var(--err-bg);color:var(--err);border:1.5px solid var(--err);font-weight:700">Out of Stock ▾</button>`
+            : `<button class="btn btn-primary btn-sm" onclick="openRestock('${p.id}')">Restock</button>`
+          }
           <button class="btn btn-outline btn-sm" onclick="openEditProduct('${p.id}')">Edit</button>
           <button class="btn btn-danger-ghost" onclick="deleteProduct('${p.id}')">✕</button>
         </div>
@@ -1242,7 +1245,7 @@ function itemSearchKey(e) {
     const p = val ? products.find(x => x.barcode && x.barcode === val) : null;
     if (p) {
       e.preventDefault();
-      if (p.stock <= 0) { showOosModal(p.id); return; }
+      if (p.stock <= 0) { showToast(p.name + ' is out of stock', 'warn'); return; }
       pickItem(p.id);
     }
   }
@@ -1281,7 +1284,7 @@ document.addEventListener('click', e => {
         if (p) {
           e.preventDefault();
           e.stopPropagation();
-          if (p.stock <= 0) { showOosModal(p.id); return; }
+          if (p.stock <= 0) { showToast(p.name + ' is out of stock', 'warn'); return; }
           pickItem(p.id);
           showToast('Scanned: ' + p.name, 'ok');
           return;
@@ -1515,14 +1518,12 @@ function showOosModal(productId) {
 
 function oosRestock() {
   closeModal('modal-oos');
-  navigate('inventory');
-  setTimeout(() => openEditProduct(_oosId), 80);
+  openEditProduct(_oosId);
 }
 
 function oosAddNew() {
   closeModal('modal-oos');
-  navigate('inventory');
-  setTimeout(() => openAddProduct(), 80);
+  openAddProduct();
 }
 
 function oosReplaceDelete() {
