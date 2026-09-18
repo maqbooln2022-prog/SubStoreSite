@@ -1,3 +1,4 @@
+<meta charset="UTF-8">
 <title>KiranaBook</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,600;6..12,700;6..12,800&display=swap">
@@ -151,31 +152,58 @@ button,select,input{font-family:inherit}
 .close-btn{background:none;border:none;cursor:pointer;color:var(--t3);font-size:20px;line-height:1;padding:2px}
 .close-btn:hover{color:var(--t1)}
 
-/* Billing page */
-.billing-wrap{max-width:660px;margin:0 auto;display:flex;flex-direction:column;gap:0}
-.billing-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);box-shadow:var(--sh1);overflow:hidden}
-.billing-top{padding:16px 20px;border-bottom:1px solid var(--border);background:var(--surface-2);display:flex;align-items:center;justify-content:space-between;border-radius:var(--rl) var(--rl) 0 0}
+/* Billing page — full screen */
+.billing-wrap{height:calc(100vh - 54px);display:flex;flex-direction:column}
+.billing-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);box-shadow:var(--sh1);overflow:hidden;display:flex;flex-direction:column;flex:1}
+.billing-top{padding:14px 20px;border-bottom:1px solid var(--border);background:var(--surface-2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .billing-title{font-family:'Libre Baskerville',Georgia,serif;font-size:15px;font-weight:700}
 
+/* Tabs */
+.bill-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.bill-tab{flex:1;padding:12px 16px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;color:var(--t3);border-bottom:2.5px solid transparent;transition:all .15s;user-select:none}
+.bill-tab:hover{color:var(--t1);background:var(--surface-3)}
+.bill-tab.active{color:var(--accent-d);border-bottom-color:var(--accent);background:var(--surface)}
+.bill-tab-count{display:inline-block;background:var(--accent);color:#fff;font-size:10px;font-weight:800;padding:1px 6px;border-radius:20px;margin-left:5px;vertical-align:middle}
+
+/* Tab panes */
+.bill-tab-pane{display:none;flex:1;flex-direction:column;overflow:hidden}
+.bill-tab-pane.active{display:flex}
+
 /* Add-item search */
-.add-item-wrap{padding:14px 20px;border-bottom:1px solid var(--border);position:relative}
-.add-item-label{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
-.add-item-row{display:flex;gap:8px;position:relative}
-.add-item-input{flex:1;padding:10px 14px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);font-size:14px;color:var(--t1);outline:none;transition:border-color .15s}
+.add-item-wrap{padding:16px 20px;border-bottom:1px solid var(--border);position:relative;flex-shrink:0}
+.add-item-label{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);margin-bottom:7px}
+.add-item-row{position:relative}
+.add-item-input{width:100%;padding:12px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);font-size:15px;color:var(--t1);outline:none;transition:border-color .15s}
 .add-item-input:focus{border-color:var(--accent);background:var(--surface)}
 .add-item-input::placeholder{color:var(--t3)}
-.item-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1.5px solid var(--accent);border-radius:var(--r);box-shadow:var(--sh2);z-index:300;display:none;max-height:260px;overflow-y:auto}
+.item-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1.5px solid var(--accent);border-radius:var(--r);box-shadow:var(--sh2);z-index:300;display:none;max-height:300px;overflow-y:auto}
 .item-dropdown.open{display:block}
-.item-opt{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;transition:background .12s;gap:10px}
+.item-opt{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;cursor:pointer;transition:background .12s;gap:12px}
 .item-opt:hover{background:var(--surface-2)}
 .item-opt:not(:last-child){border-bottom:1px solid var(--border)}
-.item-opt-name{font-size:13.5px;font-weight:700;color:var(--t1)}
-.item-opt-cat{font-size:11px;color:var(--t3);margin-top:1px}
+.item-opt-name{font-size:14px;font-weight:700;color:var(--t1)}
+.item-opt-cat{font-size:11.5px;color:var(--t3);margin-top:2px}
 .item-opt-right{text-align:right;flex-shrink:0}
-.item-opt-price{font-size:13px;font-weight:800;color:var(--accent-d);font-variant-numeric:tabular-nums}
-.item-opt-stock{font-size:11px;color:var(--t3);margin-top:1px}
+.item-opt-price{font-size:13.5px;font-weight:800;color:var(--accent-d);font-variant-numeric:tabular-nums}
+.item-opt-stock{font-size:11px;color:var(--t3);margin-top:2px}
 .item-opt.out-opt{opacity:.45;cursor:not-allowed}
-.item-no-results{padding:14px 16px;font-size:13px;color:var(--t3);text-align:center}
+.item-no-results{padding:16px;font-size:13px;color:var(--t3);text-align:center}
+.add-hint{font-size:12px;color:var(--t3);margin-top:10px;text-align:center}
+
+/* Delete items tab */
+.del-items-list{flex:1;overflow-y:auto;padding:0}
+.del-item-row{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);transition:background .12s}
+.del-item-row:hover{background:var(--surface-2)}
+.del-item-info{flex:1}
+.del-item-name{font-size:14px;font-weight:700}
+.del-item-sub{font-size:12px;color:var(--t3);margin-top:2px;font-variant-numeric:tabular-nums}
+.del-item-amt{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--t1);min-width:70px;text-align:right}
+.del-item-qty{display:flex;align-items:center;gap:6px}
+.del-btn{width:28px;height:28px;background:var(--err-bg);border:none;border-radius:50%;color:var(--err);font-size:18px;font-weight:700;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.del-btn:hover{background:var(--err);color:#fff}
+
+/* Bill footer (always visible) */
+.bill-footer-fixed{padding:16px 20px 20px;border-top:1px solid var(--border);background:var(--surface);flex-shrink:0}
 
 /* Bill panel */
 .bill-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);box-shadow:var(--sh1);position:sticky;top:70px}
@@ -402,8 +430,8 @@ button,select,input{font-family:inherit}
   </div>
 
   <!-- NEW SALE -->
-  <div class="page" id="page-newsale">
-    <div class="billing-wrap">
+  <div class="page" id="page-newsale" style="padding:16px;height:calc(100vh - 54px);display:flex;flex-direction:column">
+    <div class="billing-wrap" style="flex:1">
       <div class="billing-panel">
         <!-- Header -->
         <div class="billing-top">
@@ -411,31 +439,55 @@ button,select,input{font-family:inherit}
             <div class="billing-title">New Bill</div>
             <span class="bill-no-badge" id="bill-no-badge">KR-—</span>
           </div>
-          <button class="btn btn-ghost btn-sm" onclick="clearCart()" style="font-size:12px">✕ Clear</button>
+          <button class="btn btn-ghost btn-sm" onclick="clearCart()" style="font-size:12px;color:var(--err)">✕ Clear</button>
         </div>
-        <!-- Add Item -->
-        <div class="add-item-wrap">
-          <div class="add-item-label">Add Item</div>
-          <div class="add-item-row">
-            <input class="add-item-input" id="item-search" type="text" placeholder="Type product name to search and add…" oninput="showItemDropdown()" onkeydown="itemSearchKey(event)" autocomplete="off">
-            <div class="item-dropdown" id="item-dropdown"></div>
+        <!-- Tabs -->
+        <div class="bill-tabs">
+          <div class="bill-tab active" id="tab-add" onclick="switchBillTab('add')">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="vertical-align:-2px;margin-right:5px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Item
+          </div>
+          <div class="bill-tab" id="tab-del" onclick="switchBillTab('del')">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:5px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            Delete Items
+            <span class="bill-tab-count" id="cart-count" style="display:none">0</span>
           </div>
         </div>
-        <!-- Bill Items -->
-        <div class="bill-items-list" id="bill-items-list" style="padding:0 20px">
-          <div class="empty" id="bill-empty" style="padding:36px 0">
-            <div class="empty-ico">🧾</div>
-            <div class="empty-txt">Search a product above to start billing</div>
+
+        <!-- TAB: Add Item -->
+        <div class="bill-tab-pane active" id="pane-add">
+          <div class="add-item-wrap">
+            <div class="add-item-label">Search product</div>
+            <div class="add-item-row">
+              <input class="add-item-input" id="item-search" type="text" placeholder="Type product name to search and add…" oninput="showItemDropdown()" onkeydown="itemSearchKey(event)" autocomplete="off">
+              <div class="item-dropdown" id="item-dropdown"></div>
+            </div>
+            <div class="add-hint" id="add-hint">Type a name above — select from results to add to bill</div>
+          </div>
+          <div id="add-tab-empty" style="flex:1;display:flex;align-items:center;justify-content:center">
+            <div class="empty">
+              <div class="empty-ico">🔍</div>
+              <div class="empty-txt">Search any product to add it to this bill</div>
+            </div>
           </div>
         </div>
-        <!-- Totals -->
-        <div class="bill-totals" id="bill-totals" style="display:none;margin:0 20px 0;border-radius:var(--r);border:1px solid var(--border)">
-          <div class="bill-row"><span>Subtotal</span><span id="b-subtotal">₹0.00</span></div>
-          <div class="bill-row"><span id="b-gst-label">GST (5%)</span><span id="b-gst">₹0.00</span></div>
-          <div class="bill-row grand"><span>Total</span><span id="b-total">₹0.00</span></div>
+
+        <!-- TAB: Delete Items -->
+        <div class="bill-tab-pane" id="pane-del">
+          <div class="empty" id="del-empty" style="padding:40px 0;display:flex;flex-direction:column;align-items:center">
+            <div class="empty-ico">🛒</div>
+            <div class="empty-txt">No items in bill yet</div>
+          </div>
+          <div class="del-items-list" id="del-items-list" style="display:none"></div>
         </div>
-        <!-- Footer -->
-        <div class="bill-foot" style="padding:16px 20px 20px">
+
+        <!-- Fixed footer: totals + generate (always visible) -->
+        <div class="bill-footer-fixed" id="bill-totals">
+          <div id="bill-totals-rows" style="display:none;margin-bottom:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px">
+            <div class="bill-row"><span>Subtotal</span><span id="b-subtotal">₹0.00</span></div>
+            <div class="bill-row"><span id="b-gst-label">GST (5%)</span><span id="b-gst">₹0.00</span></div>
+            <div class="bill-row grand"><span>Total</span><span id="b-total">₹0.00</span></div>
+          </div>
           <div class="form-group">
             <label class="form-label">Customer Name <span style="font-weight:400;text-transform:none;font-size:11px">(optional)</span></label>
             <input class="form-input" id="bill-customer" type="text" placeholder="Walk-in Customer">
@@ -1038,53 +1090,69 @@ function removeFromCart(pid) {
 
 function clearCart() {
   cart = [];
+  switchBillTab('add');
   renderCart();
 }
 
+function switchBillTab(tab) {
+  document.getElementById('tab-add').classList.toggle('active', tab === 'add');
+  document.getElementById('tab-del').classList.toggle('active', tab === 'del');
+  document.getElementById('pane-add').classList.toggle('active', tab === 'add');
+  document.getElementById('pane-del').classList.toggle('active', tab === 'del');
+}
+
 function renderCart() {
-  const listEl = document.getElementById('bill-items-list');
-  const totalsEl = document.getElementById('bill-totals');
-  const emptyEl = document.getElementById('bill-empty');
   const btn = document.getElementById('complete-btn');
   const badgeEl = document.getElementById('bill-no-badge');
+  const totalsRows = document.getElementById('bill-totals-rows');
+  const countBadge = document.getElementById('cart-count');
+  const delList = document.getElementById('del-items-list');
+  const delEmpty = document.getElementById('del-empty');
 
   badgeEl.textContent = nextBillNo();
 
+  // Cart count badge on tab
+  const totalQty = cart.reduce((a,i) => a+i.qty, 0);
+  countBadge.textContent = totalQty;
+  countBadge.style.display = totalQty > 0 ? '' : 'none';
+
+  btn.disabled = !cart.length;
+  totalsRows.style.display = cart.length ? '' : 'none';
+
   if (!cart.length) {
-    listEl.innerHTML = '';
-    emptyEl.style.padding = '36px 0';
-    listEl.appendChild(emptyEl);
-    emptyEl.style.display = '';
-    totalsEl.style.display = 'none';
-    btn.disabled = true;
+    delList.style.display = 'none';
+    delList.innerHTML = '';
+    delEmpty.style.display = '';
     return;
   }
-
-  emptyEl.style.display = 'none';
-  totalsEl.style.display = '';
-  btn.disabled = false;
 
   const sub = cart.reduce((a,i) => a + i.qty*i.price, 0);
   const rate = settings.gstRate || 5;
   const gst = sub * rate / 100;
   const total = sub + gst;
 
-  listEl.innerHTML = cart.map(item => `
-    <div class="bill-item">
-      <div class="bill-item-name">${item.name}<small>${inr(item.price)}/${item.unit}</small></div>
-      <div class="qty-ctrl">
-        <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
-        <span class="qty-n">${item.qty}</span>
-        <button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button>
-      </div>
-      <div class="bill-item-amt">${inr(item.qty*item.price)}</div>
-      <button class="rm-btn" onclick="removeFromCart('${item.id}')">×</button>
-    </div>`).join('');
-
   document.getElementById('b-subtotal').textContent = inr(sub);
   document.getElementById('b-gst-label').textContent = `GST (${rate}%)`;
   document.getElementById('b-gst').textContent = inr(gst);
   document.getElementById('b-total').textContent = inr(total);
+
+  // Delete Items tab — show items with remove button + qty controls
+  delEmpty.style.display = 'none';
+  delList.style.display = '';
+  delList.innerHTML = cart.map(item => `
+    <div class="del-item-row">
+      <div class="del-item-info">
+        <div class="del-item-name">${item.name}</div>
+        <div class="del-item-sub">${inr(item.price)} / ${item.unit} &nbsp;·&nbsp; ${item.qty} × ${inr(item.price)} = ${inr(item.qty*item.price)}</div>
+      </div>
+      <div class="del-item-qty">
+        <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
+        <span class="qty-n">${item.qty}</span>
+        <button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button>
+      </div>
+      <div class="del-item-amt">${inr(item.qty*item.price)}</div>
+      <button class="del-btn" onclick="removeFromCart('${item.id}')" title="Remove item">×</button>
+    </div>`).join('');
 }
 
 function completeSale() {
