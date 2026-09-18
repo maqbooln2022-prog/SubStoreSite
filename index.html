@@ -487,7 +487,7 @@ button,select,input{font-family:inherit}
     </div>
     <div class="tcard">
       <table>
-        <thead><tr><th>Product</th><th>Category</th><th>Stock</th><th>Sale Price</th><th>Cost Price</th><th>Actions</th></tr></thead>
+        <thead><tr><th>Product</th><th>Category</th><th>Stock</th><th>MRP</th><th>Sale Price</th><th>Cost Price</th><th>Actions</th></tr></thead>
         <tbody id="inv-tbody"></tbody>
       </table>
     </div>
@@ -535,6 +535,10 @@ button,select,input{font-family:inherit}
                 <div class="idc-field-val" id="idc-cost">—</div>
               </div>
               <div>
+                <div class="idc-field-label">MRP <span style="font-weight:400;font-size:10px">(customer sees)</span></div>
+                <div class="idc-field-val" id="idc-mrp" style="color:var(--t3);text-decoration:line-through">—</div>
+              </div>
+              <div>
                 <div class="idc-field-label">Selling Price (₹)</div>
                 <input class="idc-field-input" id="idc-sell" type="number" min="0" step="0.5" oninput="updateIdcTotal()">
               </div>
@@ -543,6 +547,7 @@ button,select,input{font-family:inherit}
                 <input class="idc-field-input" id="idc-qty" type="number" min="1" step="1" value="1" oninput="updateIdcTotal()">
               </div>
             </div>
+            <div id="idc-savings" style="display:none;font-size:11px;color:var(--ok);font-weight:700;padding:4px 0 0"></div>
             <div class="idc-footer">
               <div class="idc-line-total">Line total: <strong id="idc-total">₹0.00</strong></div>
               <button class="btn btn-primary" onclick="addFromDetail()">
@@ -635,17 +640,21 @@ button,select,input{font-family:inherit}
           <input class="form-input" id="prod-price" type="number" min="0" step="0.5" placeholder="0.00">
         </div>
         <div class="form-group">
+          <label class="form-label">MRP (₹) <span style="font-weight:400;text-transform:none;font-size:10px">shown to customer</span></label>
+          <input class="form-input" id="prod-mrp" type="number" min="0" step="0.5" placeholder="0.00">
+        </div>
+        <div class="form-group">
           <label class="form-label">Cost Price (₹)</label>
           <input class="form-input" id="prod-cost" type="number" min="0" step="0.5" placeholder="0.00">
         </div>
-        <div class="form-group">
-          <label class="form-label">Unit</label>
-          <select class="form-sel" id="prod-unit">
-            <option>piece</option><option>kg</option><option>g</option>
-            <option>litre</option><option>ml</option><option>pack</option>
-            <option>bottle</option><option>box</option><option>dozen</option>
-          </select>
-        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Unit</label>
+        <select class="form-sel" id="prod-unit" style="max-width:160px">
+          <option>piece</option><option>kg</option><option>g</option>
+          <option>litre</option><option>ml</option><option>pack</option>
+          <option>bottle</option><option>box</option><option>dozen</option>
+        </select>
       </div>
       <div class="form-row">
         <div class="form-group">
@@ -819,20 +828,20 @@ const SEED_SETTINGS = {
 };
 
 const SEED_PRODUCTS = [
-  {id:'p1', name:'Basmati Rice',            cat:'Grains & Rice',    unit:'kg',     price:95,  cost:78,  stock:48,  minStock:10, barcode:'8901030863059'},
-  {id:'p2', name:'Toor Dal',                cat:'Pulses & Dal',     unit:'kg',     price:125, cost:102, stock:22,  minStock:8,  barcode:'8906002650018'},
-  {id:'p3', name:'Refined Sunflower Oil 1L',cat:'Oil & Ghee',       unit:'bottle', price:138, cost:115, stock:30,  minStock:10, barcode:'8901719120121'},
-  {id:'p4', name:'Amul Butter 500g',        cat:'Dairy',            unit:'pack',   price:270, cost:245, stock:8,   minStock:6,  barcode:'8901088006001'},
-  {id:'p5', name:'Aashirvaad Atta 5kg',     cat:'Atta & Flour',     unit:'bag',    price:248, cost:215, stock:15,  minStock:5,  barcode:'8901030834646'},
-  {id:'p6', name:'Maggi Noodles 70g',       cat:'Snacks & Biscuits',unit:'pack',   price:15,  cost:11,  stock:85,  minStock:20, barcode:'8901058025011'},
-  {id:'p7', name:'Tata Salt 1kg',           cat:'Spices',           unit:'pack',   price:26,  cost:21,  stock:40,  minStock:10, barcode:'8901101000166'},
-  {id:'p8', name:'Red Chilli Powder 100g',  cat:'Spices',           unit:'pack',   price:58,  cost:44,  stock:4,   minStock:8,  barcode:'8904078000013'},
-  {id:'p9', name:'Parle-G Original 80g',    cat:'Snacks & Biscuits',unit:'pack',   price:10,  cost:7,   stock:120, minStock:30, barcode:'8902130049007'},
-  {id:'p10',name:'Coca-Cola 750ml',         cat:'Beverages',        unit:'bottle', price:42,  cost:33,  stock:24,  minStock:12, barcode:'5449000024701'},
-  {id:'p11',name:'Lifebuoy Soap 125g',      cat:'Personal Care',    unit:'piece',  price:34,  cost:26,  stock:3,   minStock:10, barcode:'8710447376669'},
-  {id:'p12',name:'Turmeric Powder 100g',    cat:'Spices',           unit:'pack',   price:48,  cost:36,  stock:18,  minStock:6,  barcode:'8906053800024'},
-  {id:'p13',name:'Surf Excel 500g',         cat:'Household',        unit:'pack',   price:88,  cost:70,  stock:20,  minStock:5,  barcode:'8901030875700'},
-  {id:'p14',name:'Amul Milk 500ml',         cat:'Dairy',            unit:'pack',   price:28,  cost:24,  stock:0,   minStock:15, barcode:'8901088010008'},
+  {id:'p1', name:'Basmati Rice',            cat:'Grains & Rice',    unit:'kg',     price:95,  cost:78,  mrp:115,  stock:48,  minStock:10, barcode:'8901030863059'},
+  {id:'p2', name:'Toor Dal',                cat:'Pulses & Dal',     unit:'kg',     price:125, cost:102, mrp:148,  stock:22,  minStock:8,  barcode:'8906002650018'},
+  {id:'p3', name:'Refined Sunflower Oil 1L',cat:'Oil & Ghee',       unit:'bottle', price:138, cost:115, mrp:160,  stock:30,  minStock:10, barcode:'8901719120121'},
+  {id:'p4', name:'Amul Butter 500g',        cat:'Dairy',            unit:'pack',   price:270, cost:245, mrp:290,  stock:8,   minStock:6,  barcode:'8901088006001'},
+  {id:'p5', name:'Aashirvaad Atta 5kg',     cat:'Atta & Flour',     unit:'bag',    price:248, cost:215, mrp:275,  stock:15,  minStock:5,  barcode:'8901030834646'},
+  {id:'p6', name:'Maggi Noodles 70g',       cat:'Snacks & Biscuits',unit:'pack',   price:15,  cost:11,  mrp:18,   stock:85,  minStock:20, barcode:'8901058025011'},
+  {id:'p7', name:'Tata Salt 1kg',           cat:'Spices',           unit:'pack',   price:26,  cost:21,  mrp:30,   stock:40,  minStock:10, barcode:'8901101000166'},
+  {id:'p8', name:'Red Chilli Powder 100g',  cat:'Spices',           unit:'pack',   price:58,  cost:44,  mrp:70,   stock:4,   minStock:8,  barcode:'8904078000013'},
+  {id:'p9', name:'Parle-G Original 80g',    cat:'Snacks & Biscuits',unit:'pack',   price:10,  cost:7,   mrp:12,   stock:120, minStock:30, barcode:'8902130049007'},
+  {id:'p10',name:'Coca-Cola 750ml',         cat:'Beverages',        unit:'bottle', price:42,  cost:33,  mrp:50,   stock:24,  minStock:12, barcode:'5449000024701'},
+  {id:'p11',name:'Lifebuoy Soap 125g',      cat:'Personal Care',    unit:'piece',  price:34,  cost:26,  mrp:40,   stock:3,   minStock:10, barcode:'8710447376669'},
+  {id:'p12',name:'Turmeric Powder 100g',    cat:'Spices',           unit:'pack',   price:48,  cost:36,  mrp:58,   stock:18,  minStock:6,  barcode:'8906053800024'},
+  {id:'p13',name:'Surf Excel 500g',         cat:'Household',        unit:'pack',   price:88,  cost:70,  mrp:105,  stock:20,  minStock:5,  barcode:'8901030875700'},
+  {id:'p14',name:'Amul Milk 500ml',         cat:'Dairy',            unit:'pack',   price:28,  cost:24,  mrp:32,   stock:0,   minStock:15, barcode:'8901088010008'},
 ];
 
 function seedSales() {
@@ -866,6 +875,13 @@ function loadData() {
     }
     const pp = localStorage.getItem(PRODUCTS_KEY);
     products = pp ? JSON.parse(pp) : SEED_PRODUCTS.map(p=>({...p}));
+    // Backfill mrp for products loaded from old localStorage (before mrp was added)
+    products.forEach(p => {
+      if (!p.mrp) {
+        const seed = SEED_PRODUCTS.find(s => s.id === p.id);
+        if (seed && seed.mrp) p.mrp = seed.mrp;
+      }
+    });
     const sl = localStorage.getItem(SALES_KEY);
     sales = sl ? JSON.parse(sl) : seedSales();
   } catch(e) {
@@ -1012,7 +1028,7 @@ function renderInventory() {
 
   const tbody = document.getElementById('inv-tbody');
   if (!list.length) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--t3);padding:30px">No products found</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--t3);padding:30px">No products found</td></tr>';
     return;
   }
   tbody.innerHTML = list.map(p => {
@@ -1036,7 +1052,8 @@ function renderInventory() {
           <div class="stk-track"><div class="stk-fill" style="width:${sp}%"></div></div>
         </div>
       </td>
-      <td style="font-weight:700;font-variant-numeric:tabular-nums">${inr(p.price)}<span style="font-size:11px;color:var(--t3)">/${p.unit}</span></td>
+      <td style="font-variant-numeric:tabular-nums;color:var(--t3)"><span style="text-decoration:line-through">${p.mrp ? inr(p.mrp) : '—'}</span></td>
+      <td style="font-weight:700;font-variant-numeric:tabular-nums">${inr(p.price)}<span style="font-size:11px;color:var(--t3)">/${p.unit}</span>${p.mrp && p.mrp > p.price ? `<span style="font-size:10px;color:var(--ok);margin-left:4px">-${Math.round((p.mrp-p.price)/p.mrp*100)}%</span>` : ''}</td>
       <td style="color:var(--t3);font-variant-numeric:tabular-nums">${p.cost ? inr(p.cost) : '—'}</td>
       <td>
         <div style="display:flex;gap:6px">
@@ -1055,7 +1072,7 @@ function renderInventory() {
 function openAddProduct() {
   document.getElementById('prod-modal-title').textContent = 'Add Product';
   document.getElementById('edit-prod-id').value = '';
-  ['prod-name','prod-price','prod-cost','prod-stock','prod-min','prod-barcode'].forEach(id => document.getElementById(id).value = '');
+  ['prod-name','prod-price','prod-mrp','prod-cost','prod-stock','prod-min','prod-barcode'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('prod-cat').value = '';
   document.getElementById('prod-unit').value = 'piece';
   openModal('modal-product');
@@ -1069,6 +1086,7 @@ function openEditProduct(id) {
   document.getElementById('prod-name').value = p.name;
   document.getElementById('prod-cat').value = p.cat;
   document.getElementById('prod-price').value = p.price;
+  document.getElementById('prod-mrp').value = p.mrp || '';
   document.getElementById('prod-cost').value = p.cost || '';
   document.getElementById('prod-unit').value = p.unit;
   document.getElementById('prod-stock').value = p.stock;
@@ -1081,7 +1099,8 @@ function saveProduct() {
   const name = document.getElementById('prod-name').value.trim();
   const cat = document.getElementById('prod-cat').value;
   const price = parseFloat(document.getElementById('prod-price').value);
-  const cost = parseFloat(document.getElementById('prod-cost').value) || 0;
+  const mrp   = parseFloat(document.getElementById('prod-mrp').value) || 0;
+  const cost  = parseFloat(document.getElementById('prod-cost').value) || 0;
   const unit = document.getElementById('prod-unit').value;
   const stock = parseInt(document.getElementById('prod-stock').value) || 0;
   const minStock = parseInt(document.getElementById('prod-min').value) || 5;
@@ -1100,9 +1119,9 @@ function saveProduct() {
 
   if (eid) {
     const p = products.find(x => x.id === eid);
-    if (p) Object.assign(p, {name, cat, price, cost, unit, stock, minStock, barcode: barcode || ''});
+    if (p) Object.assign(p, {name, cat, price, mrp, cost, unit, stock, minStock, barcode: barcode || ''});
   } else {
-    products.push({id:uid(), name, cat, price, cost, unit, stock, minStock, barcode: barcode || ''});
+    products.push({id:uid(), name, cat, price, mrp, cost, unit, stock, minStock, barcode: barcode || ''});
   }
   saveData(); closeModal('modal-product');
   renderInventory(); updateSidebarStats();
@@ -1168,7 +1187,7 @@ function showItemDropdown() {
         <div class="item-opt-cat">${p.cat}</div>
       </div>
       <div class="item-opt-right">
-        <div class="item-opt-price">${inr(p.price)}<span style="font-size:10px;font-weight:400;color:var(--t3)">/${p.unit}</span></div>
+        <div class="item-opt-price">${p.mrp&&p.mrp>p.price?`<span style="text-decoration:line-through;font-size:10px;color:var(--t3);margin-right:3px">${inr(p.mrp)}</span>`:''}${inr(p.price)}<span style="font-size:10px;font-weight:400;color:var(--t3)">/${p.unit}</span></div>
         <div class="item-opt-stock">${p.stock<=0?'Out of stock':p.stock+' in stock'}</div>
       </div>
     </div>`).join('');
@@ -1192,6 +1211,7 @@ function pickItem(pid) {
   document.getElementById('idc-name').textContent = p.name;
   document.getElementById('idc-cat').textContent = p.cat + ' · ' + p.stock + ' ' + p.unit + ' in stock';
   document.getElementById('idc-cost').textContent = p.cost ? inr(p.cost)+' /'+p.unit : '—';
+  document.getElementById('idc-mrp').textContent = p.mrp ? inr(p.mrp) : '—';
   document.getElementById('idc-sell').value = p.price;
   document.getElementById('idc-qty').value = 1;
   document.getElementById('idc-qty').max = p.stock;
@@ -1204,6 +1224,15 @@ function updateIdcTotal() {
   const sell = parseFloat(document.getElementById('idc-sell').value) || 0;
   const qty  = parseInt(document.getElementById('idc-qty').value)   || 0;
   document.getElementById('idc-total').textContent = inr(sell * qty);
+
+  const p = _idcPid ? products.find(x => x.id === _idcPid) : null;
+  const savingsEl = document.getElementById('idc-savings');
+  if (savingsEl && p && p.mrp && p.mrp > sell && qty > 0) {
+    savingsEl.textContent = '🏷 Customer saves ' + inr((p.mrp - sell) * qty);
+    savingsEl.style.display = '';
+  } else if (savingsEl) {
+    savingsEl.style.display = 'none';
+  }
 }
 
 function closeItemDetail() {
@@ -1225,8 +1254,9 @@ function addFromDetail() {
   if (existing) {
     existing.qty   = qty;
     existing.price = sell;
+    existing.mrp   = p.mrp || 0;
   } else {
-    cart.push({id:_idcPid, name:p.name, price:sell, unit:p.unit, qty});
+    cart.push({id:_idcPid, name:p.name, price:sell, mrp:p.mrp||0, unit:p.unit, qty});
   }
   closeItemDetail();
   renderCart();
@@ -1342,11 +1372,15 @@ function renderCart() {
   document.getElementById('b-gst').textContent = inr(gst);
   document.getElementById('b-total').textContent   = inr(total);
 
-  area.innerHTML = cart.map(item => `
+  area.innerHTML = cart.map(item => {
+    const mrpTag = (item.mrp && item.mrp > item.price)
+      ? `<span style="text-decoration:line-through;color:var(--t3);font-size:10px;margin-right:3px">MRP ${inr(item.mrp)}</span>`
+      : '';
+    return `
     <div class="bill-item-row">
       <div class="bitem-info">
         <div class="bitem-name">${item.name}</div>
-        <div class="bitem-price">${inr(item.price)} / ${item.unit}</div>
+        <div class="bitem-price">${mrpTag}${inr(item.price)} / ${item.unit}</div>
       </div>
       <div class="bitem-qty">
         <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
@@ -1355,7 +1389,8 @@ function renderCart() {
       </div>
       <div class="bitem-amt">${inr(item.qty*item.price)}</div>
       <button class="rm-btn" onclick="removeFromCart('${item.id}')" title="Remove">×</button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 function completeSale() {
@@ -1407,11 +1442,15 @@ function showReceipt(saleId) {
     <hr class="receipt-hr">
     <div class="receipt-row bold"><span style="flex:1">ITEM</span><span>QTY</span><span style="min-width:60px;text-align:right">AMT</span></div>
     <hr class="receipt-hr">
-    ${sale.items.map(i=>`<div class="receipt-row"><span style="flex:1">${i.name}</span><span style="margin:0 8px">${i.qty}×${inrShort(i.price)}</span><span style="min-width:60px;text-align:right;font-variant-numeric:tabular-nums">${inrShort(i.qty*i.price)}</span></div>`).join('')}
+    ${sale.items.map(i=>{
+      const mrpPart = (i.mrp && i.mrp > i.price) ? `<span style="text-decoration:line-through;opacity:0.5;font-size:9px"> MRP ${inrShort(i.mrp)}</span>` : '';
+      return `<div class="receipt-row"><span style="flex:1">${i.name}${mrpPart}</span><span style="margin:0 8px">${i.qty}×${inrShort(i.price)}</span><span style="min-width:60px;text-align:right;font-variant-numeric:tabular-nums">${inrShort(i.qty*i.price)}</span></div>`;
+    }).join('')}
     <hr class="receipt-hr">
     <div class="receipt-row"><span>Subtotal</span><span style="font-variant-numeric:tabular-nums">${inr(sale.subtotal)}</span></div>
     <div class="receipt-row"><span>GST (${settings.gstRate||5}%)</span><span style="font-variant-numeric:tabular-nums">${inr(sale.gst)}</span></div>
     <div class="receipt-row big"><span>TOTAL</span><span style="font-variant-numeric:tabular-nums">${inr(sale.total)}</span></div>
+    ${(()=>{const saved=sale.items.reduce((a,i)=>a+(i.mrp&&i.mrp>i.price?(i.mrp-i.price)*i.qty:0),0);return saved>0?`<div class="receipt-row" style="color:#22a06b;font-weight:700"><span>You saved</span><span>${inr(saved)}</span></div>`:''})()}
     <hr class="receipt-hr">
     <div class="receipt-thanks">Thank you for shopping with us!</div>
     <div class="receipt-thanks" style="margin-top:4px">Please visit again · ${s.storeName}</div>
