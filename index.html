@@ -450,10 +450,13 @@ button,select,input{font-family:inherit}
 
         <!-- Search bar -->
         <div class="search-area">
-          <div class="search-area-label">Search &amp; Add Item</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <div class="search-area-label" style="margin-bottom:0">Search &amp; Add Item</div>
+            <div style="font-size:11px;color:var(--t3);font-weight:600">or scan barcode</div>
+          </div>
           <div style="position:relative">
             <svg class="search-ico" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input class="add-item-input" id="item-search" type="text" placeholder="Type product name to search…" oninput="showItemDropdown()" onkeydown="itemSearchKey(event)" autocomplete="off">
+            <input class="add-item-input" id="item-search" type="text" placeholder="Type product name or barcode…" oninput="showItemDropdown()" onkeydown="itemSearchKey(event)" autocomplete="off">
             <div class="item-dropdown" id="item-dropdown"></div>
           </div>
         </div>
@@ -596,6 +599,10 @@ button,select,input{font-family:inherit}
           <input class="form-input" id="prod-min" type="number" min="0" placeholder="5">
         </div>
       </div>
+      <div class="form-group">
+        <label class="form-label">Barcode</label>
+        <input class="form-input" id="prod-barcode" type="text" placeholder="Scan or type barcode number" autocomplete="off">
+      </div>
     </div>
     <div class="modal-foot">
       <button class="btn btn-outline" onclick="closeModal('modal-product')">Cancel</button>
@@ -714,20 +721,20 @@ const SEED_SETTINGS = {
 };
 
 const SEED_PRODUCTS = [
-  {id:'p1',name:'Basmati Rice',cat:'Grains & Rice',unit:'kg',price:95,cost:78,stock:48,minStock:10},
-  {id:'p2',name:'Toor Dal',cat:'Pulses & Dal',unit:'kg',price:125,cost:102,stock:22,minStock:8},
-  {id:'p3',name:'Refined Sunflower Oil 1L',cat:'Oil & Ghee',unit:'bottle',price:138,cost:115,stock:30,minStock:10},
-  {id:'p4',name:'Amul Butter 500g',cat:'Dairy',unit:'pack',price:270,cost:245,stock:8,minStock:6},
-  {id:'p5',name:'Aashirvaad Atta 5kg',cat:'Atta & Flour',unit:'bag',price:248,cost:215,stock:15,minStock:5},
-  {id:'p6',name:'Maggi Noodles 70g',cat:'Snacks & Biscuits',unit:'pack',price:15,cost:11,stock:85,minStock:20},
-  {id:'p7',name:'Tata Salt 1kg',cat:'Spices',unit:'pack',price:26,cost:21,stock:40,minStock:10},
-  {id:'p8',name:'Red Chilli Powder 100g',cat:'Spices',unit:'pack',price:58,cost:44,stock:4,minStock:8},
-  {id:'p9',name:'Parle-G Original 80g',cat:'Snacks & Biscuits',unit:'pack',price:10,cost:7,stock:120,minStock:30},
-  {id:'p10',name:'Coca-Cola 750ml',cat:'Beverages',unit:'bottle',price:42,cost:33,stock:24,minStock:12},
-  {id:'p11',name:'Lifebuoy Soap 125g',cat:'Personal Care',unit:'piece',price:34,cost:26,stock:3,minStock:10},
-  {id:'p12',name:'Turmeric Powder 100g',cat:'Spices',unit:'pack',price:48,cost:36,stock:18,minStock:6},
-  {id:'p13',name:'Surf Excel 500g',cat:'Household',unit:'pack',price:88,cost:70,stock:20,minStock:5},
-  {id:'p14',name:'Amul Milk 500ml',cat:'Dairy',unit:'pack',price:28,cost:24,stock:0,minStock:15},
+  {id:'p1', name:'Basmati Rice',            cat:'Grains & Rice',    unit:'kg',     price:95,  cost:78,  stock:48,  minStock:10, barcode:'8901030863059'},
+  {id:'p2', name:'Toor Dal',                cat:'Pulses & Dal',     unit:'kg',     price:125, cost:102, stock:22,  minStock:8,  barcode:'8906002650018'},
+  {id:'p3', name:'Refined Sunflower Oil 1L',cat:'Oil & Ghee',       unit:'bottle', price:138, cost:115, stock:30,  minStock:10, barcode:'8901719120121'},
+  {id:'p4', name:'Amul Butter 500g',        cat:'Dairy',            unit:'pack',   price:270, cost:245, stock:8,   minStock:6,  barcode:'8901088006001'},
+  {id:'p5', name:'Aashirvaad Atta 5kg',     cat:'Atta & Flour',     unit:'bag',    price:248, cost:215, stock:15,  minStock:5,  barcode:'8901030834646'},
+  {id:'p6', name:'Maggi Noodles 70g',       cat:'Snacks & Biscuits',unit:'pack',   price:15,  cost:11,  stock:85,  minStock:20, barcode:'8901058025011'},
+  {id:'p7', name:'Tata Salt 1kg',           cat:'Spices',           unit:'pack',   price:26,  cost:21,  stock:40,  minStock:10, barcode:'8901101000166'},
+  {id:'p8', name:'Red Chilli Powder 100g',  cat:'Spices',           unit:'pack',   price:58,  cost:44,  stock:4,   minStock:8,  barcode:'8904078000013'},
+  {id:'p9', name:'Parle-G Original 80g',    cat:'Snacks & Biscuits',unit:'pack',   price:10,  cost:7,   stock:120, minStock:30, barcode:'8902130049007'},
+  {id:'p10',name:'Coca-Cola 750ml',         cat:'Beverages',        unit:'bottle', price:42,  cost:33,  stock:24,  minStock:12, barcode:'5449000024701'},
+  {id:'p11',name:'Lifebuoy Soap 125g',      cat:'Personal Care',    unit:'piece',  price:34,  cost:26,  stock:3,   minStock:10, barcode:'8710447376669'},
+  {id:'p12',name:'Turmeric Powder 100g',    cat:'Spices',           unit:'pack',   price:48,  cost:36,  stock:18,  minStock:6,  barcode:'8906053800024'},
+  {id:'p13',name:'Surf Excel 500g',         cat:'Household',        unit:'pack',   price:88,  cost:70,  stock:20,  minStock:5,  barcode:'8901030875700'},
+  {id:'p14',name:'Amul Milk 500ml',         cat:'Dairy',            unit:'pack',   price:28,  cost:24,  stock:0,   minStock:15, barcode:'8901088010008'},
 ];
 
 function seedSales() {
@@ -947,7 +954,7 @@ function renderInventory() {
 function openAddProduct() {
   document.getElementById('prod-modal-title').textContent = 'Add Product';
   document.getElementById('edit-prod-id').value = '';
-  ['prod-name','prod-price','prod-cost','prod-stock','prod-min'].forEach(id => document.getElementById(id).value = '');
+  ['prod-name','prod-price','prod-cost','prod-stock','prod-min','prod-barcode'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('prod-cat').value = '';
   document.getElementById('prod-unit').value = 'piece';
   openModal('modal-product');
@@ -965,6 +972,7 @@ function openEditProduct(id) {
   document.getElementById('prod-unit').value = p.unit;
   document.getElementById('prod-stock').value = p.stock;
   document.getElementById('prod-min').value = p.minStock;
+  document.getElementById('prod-barcode').value = p.barcode || '';
   openModal('modal-product');
 }
 
@@ -976,17 +984,24 @@ function saveProduct() {
   const unit = document.getElementById('prod-unit').value;
   const stock = parseInt(document.getElementById('prod-stock').value) || 0;
   const minStock = parseInt(document.getElementById('prod-min').value) || 5;
+  const barcode = document.getElementById('prod-barcode').value.trim();
 
   if (!name) { showToast('Enter product name', 'warn'); return; }
   if (!cat) { showToast('Select a category', 'warn'); return; }
   if (isNaN(price) || price <= 0) { showToast('Enter a valid price', 'warn'); return; }
 
+  // Check duplicate barcode
   const eid = document.getElementById('edit-prod-id').value;
+  if (barcode) {
+    const dup = products.find(x => x.barcode === barcode && x.id !== eid);
+    if (dup) { showToast('Barcode already used by ' + dup.name, 'warn'); return; }
+  }
+
   if (eid) {
     const p = products.find(x => x.id === eid);
-    if (p) Object.assign(p, {name, cat, price, cost, unit, stock, minStock});
+    if (p) Object.assign(p, {name, cat, price, cost, unit, stock, minStock, barcode: barcode || ''});
   } else {
-    products.push({id:uid(), name, cat, price, cost, unit, stock, minStock});
+    products.push({id:uid(), name, cat, price, cost, unit, stock, minStock, barcode: barcode || ''});
   }
   saveData(); closeModal('modal-product');
   renderInventory(); updateSidebarStats();
@@ -1036,7 +1051,11 @@ function showItemDropdown() {
   const q = document.getElementById('item-search').value.trim().toLowerCase();
   const dd = document.getElementById('item-dropdown');
   if (!q) { closeItemDropdown(); return; }
-  const matches = products.filter(p => p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q)).slice(0,8);
+  const matches = products.filter(p =>
+    p.name.toLowerCase().includes(q) ||
+    p.cat.toLowerCase().includes(q) ||
+    (p.barcode && p.barcode.includes(q))
+  ).slice(0,8);
   if (!matches.length) {
     dd.innerHTML = `<div class="item-no-results">No products match "<strong>${q}</strong>"</div>`;
     dd.classList.add('open'); return;
@@ -1120,11 +1139,57 @@ function closeItemDropdown() {
 
 function itemSearchKey(e) {
   if (e.key === 'Escape') { closeItemDropdown(); document.getElementById('item-search').value = ''; }
+  if (e.key === 'Enter') {
+    const val = document.getElementById('item-search').value.trim();
+    const p = val ? products.find(x => x.barcode && x.barcode === val) : null;
+    if (p) {
+      e.preventDefault();
+      if (p.stock <= 0) { showToast(p.name + ' is out of stock', 'warn'); return; }
+      pickItem(p.id);
+    }
+  }
 }
 
 document.addEventListener('click', e => {
   if (!e.target.closest('.search-area')) closeItemDropdown();
 });
+
+// ── Barcode scanner (USB/BT scanners type chars < 80ms apart then send Enter) ──
+(function() {
+  let buf = '', t0 = 0, tLast = 0;
+
+  document.addEventListener('keydown', function(e) {
+    const now = Date.now();
+
+    if (e.key.length === 1) {
+      if (now - tLast > 80) { buf = ''; t0 = now; }  // gap too big → start fresh
+      buf += e.key;
+      tLast = now;
+      return;
+    }
+
+    if (e.key === 'Enter' && currentView === 'newsale') {
+      const code = buf.trim();
+      const elapsed = t0 ? now - t0 : 9999;
+      buf = ''; t0 = 0; tLast = 0;
+
+      // Barcode: 6+ chars arriving within 250ms total (scanner speed)
+      if (code.length >= 6 && elapsed < 250) {
+        const p = products.find(x => x.barcode && x.barcode === code);
+        if (p) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (p.stock <= 0) { showToast(p.name + ' is out of stock', 'warn'); return; }
+          pickItem(p.id);
+          showToast('Scanned: ' + p.name, 'ok');
+          return;
+        }
+      }
+    } else if (e.key !== 'Shift' && e.key !== 'CapsLock') {
+      buf = ''; t0 = 0; tLast = 0;
+    }
+  }, true); // capture phase — fires before any input field handler
+}());
 
 function changeQty(pid, delta) {
   const item = cart.find(c => c.id === pid);
