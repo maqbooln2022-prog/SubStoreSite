@@ -158,52 +158,58 @@ button,select,input{font-family:inherit}
 .billing-top{padding:14px 20px;border-bottom:1px solid var(--border);background:var(--surface-2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .billing-title{font-family:'Libre Baskerville',Georgia,serif;font-size:15px;font-weight:700}
 
-/* Tabs */
-.bill-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
-.bill-tab{flex:1;padding:12px 16px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;color:var(--t3);border-bottom:2.5px solid transparent;transition:all .15s;user-select:none}
-.bill-tab:hover{color:var(--t1);background:var(--surface-3)}
-.bill-tab.active{color:var(--accent-d);border-bottom-color:var(--accent);background:var(--surface)}
-.bill-tab-count{display:inline-block;background:var(--accent);color:#fff;font-size:10px;font-weight:800;padding:1px 6px;border-radius:20px;margin-left:5px;vertical-align:middle}
-
-/* Tab panes */
-.bill-tab-pane{display:none;flex:1;flex-direction:column;overflow:hidden}
-.bill-tab-pane.active{display:flex}
-
-/* Add-item search */
-.add-item-wrap{padding:16px 20px;border-bottom:1px solid var(--border);position:relative;flex-shrink:0}
-.add-item-label{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);margin-bottom:7px}
-.add-item-row{position:relative}
-.add-item-input{width:100%;padding:12px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);font-size:15px;color:var(--t1);outline:none;transition:border-color .15s}
+/* Search bar */
+.search-area{padding:14px 20px;border-bottom:1px solid var(--border);position:relative;flex-shrink:0}
+.search-area-label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
+.add-item-input{width:100%;padding:11px 14px 11px 40px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);font-size:14px;color:var(--t1);outline:none;transition:border-color .15s}
 .add-item-input:focus{border-color:var(--accent);background:var(--surface)}
 .add-item-input::placeholder{color:var(--t3)}
-.item-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1.5px solid var(--accent);border-radius:var(--r);box-shadow:var(--sh2);z-index:300;display:none;max-height:300px;overflow-y:auto}
+.search-ico{position:absolute;left:32px;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none;margin-top:9px}
+.item-dropdown{position:absolute;top:calc(100% - 2px);left:20px;right:20px;background:var(--surface);border:1.5px solid var(--accent);border-top:none;border-radius:0 0 var(--r) var(--r);box-shadow:var(--sh2);z-index:300;display:none;max-height:280px;overflow-y:auto}
 .item-dropdown.open{display:block}
-.item-opt{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;cursor:pointer;transition:background .12s;gap:12px}
+.item-opt{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;transition:background .12s;gap:12px}
 .item-opt:hover{background:var(--surface-2)}
 .item-opt:not(:last-child){border-bottom:1px solid var(--border)}
-.item-opt-name{font-size:14px;font-weight:700;color:var(--t1)}
-.item-opt-cat{font-size:11.5px;color:var(--t3);margin-top:2px}
+.item-opt-name{font-size:13.5px;font-weight:700;color:var(--t1)}
+.item-opt-cat{font-size:11px;color:var(--t3);margin-top:1px}
 .item-opt-right{text-align:right;flex-shrink:0}
-.item-opt-price{font-size:13.5px;font-weight:800;color:var(--accent-d);font-variant-numeric:tabular-nums}
-.item-opt-stock{font-size:11px;color:var(--t3);margin-top:2px}
+.item-opt-price{font-size:13px;font-weight:800;color:var(--accent-d);font-variant-numeric:tabular-nums}
+.item-opt-stock{font-size:10.5px;color:var(--t3);margin-top:1px}
 .item-opt.out-opt{opacity:.45;cursor:not-allowed}
-.item-no-results{padding:16px;font-size:13px;color:var(--t3);text-align:center}
-.add-hint{font-size:12px;color:var(--t3);margin-top:10px;text-align:center}
+.item-no-results{padding:14px;font-size:13px;color:var(--t3);text-align:center}
 
-/* Delete items tab */
-.del-items-list{flex:1;overflow-y:auto;padding:0}
-.del-item-row{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);transition:background .12s}
-.del-item-row:hover{background:var(--surface-2)}
-.del-item-info{flex:1}
-.del-item-name{font-size:14px;font-weight:700}
-.del-item-sub{font-size:12px;color:var(--t3);margin-top:2px;font-variant-numeric:tabular-nums}
-.del-item-amt{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--t1);min-width:70px;text-align:right}
-.del-item-qty{display:flex;align-items:center;gap:6px}
-.del-btn{width:28px;height:28px;background:var(--err-bg);border:none;border-radius:50%;color:var(--err);font-size:18px;font-weight:700;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
-.del-btn:hover{background:var(--err);color:#fff}
+/* Item detail card */
+.item-detail-card{margin:14px 20px;border:1.5px solid var(--accent);border-radius:var(--r);overflow:hidden;flex-shrink:0;display:none}
+.item-detail-card.show{display:block}
+.idc-header{padding:11px 14px;background:rgba(232,150,14,.08);border-bottom:1px solid rgba(232,150,14,.25);display:flex;align-items:center;justify-content:space-between}
+.idc-name{font-size:14px;font-weight:800;color:var(--t1)}
+.idc-cat{font-size:11px;color:var(--t3);margin-top:2px}
+.idc-close{background:none;border:none;cursor:pointer;color:var(--t3);font-size:18px;line-height:1;padding:2px;transition:color .15s}
+.idc-close:hover{color:var(--err)}
+.idc-body{padding:14px}
+.idc-fields{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px}
+.idc-field-label{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+.idc-field-val{font-size:13px;font-weight:700;color:var(--t2);padding:9px 11px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--rs);font-variant-numeric:tabular-nums}
+.idc-field-input{width:100%;padding:9px 11px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--rs);font-size:14px;font-weight:700;color:var(--t1);outline:none;font-variant-numeric:tabular-nums;transition:border-color .15s}
+.idc-field-input:focus{border-color:var(--accent)}
+.idc-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:12px}
+.idc-line-total{font-size:13px;color:var(--t2)}
+.idc-line-total strong{font-size:16px;font-weight:800;color:var(--t1);font-variant-numeric:tabular-nums}
 
-/* Bill footer (always visible) */
-.bill-footer-fixed{padding:16px 20px 20px;border-top:1px solid var(--border);background:var(--surface);flex-shrink:0}
+/* Bill items area */
+.bill-items-area{flex:1;overflow-y:auto}
+.bill-item-row{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--border);transition:background .12s}
+.bill-item-row:hover{background:var(--surface-2)}
+.bitem-info{flex:1}
+.bitem-name{font-size:13.5px;font-weight:700}
+.bitem-price{font-size:11.5px;color:var(--t3);margin-top:2px;font-variant-numeric:tabular-nums}
+.bitem-qty{display:flex;align-items:center;gap:5px}
+.bitem-amt{min-width:72px;text-align:right;font-size:13.5px;font-weight:800;font-variant-numeric:tabular-nums}
+.rm-btn{width:26px;height:26px;background:none;border:1.5px solid var(--border);border-radius:50%;color:var(--t3);cursor:pointer;font-size:14px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.rm-btn:hover{background:var(--err);border-color:var(--err);color:#fff}
+
+/* Bill footer */
+.bill-footer-fixed{padding:14px 20px 18px;border-top:1px solid var(--border);background:var(--surface);flex-shrink:0}
 
 /* Bill panel */
 .bill-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);box-shadow:var(--sh1);position:sticky;top:70px}
@@ -441,49 +447,62 @@ button,select,input{font-family:inherit}
           </div>
           <button class="btn btn-ghost btn-sm" onclick="clearCart()" style="font-size:12px;color:var(--err)">✕ Clear</button>
         </div>
-        <!-- Tabs -->
-        <div class="bill-tabs">
-          <div class="bill-tab active" id="tab-add" onclick="switchBillTab('add')">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="vertical-align:-2px;margin-right:5px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Add Item
-          </div>
-          <div class="bill-tab" id="tab-del" onclick="switchBillTab('del')">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:5px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-            Delete Items
-            <span class="bill-tab-count" id="cart-count" style="display:none">0</span>
+
+        <!-- Search bar -->
+        <div class="search-area">
+          <div class="search-area-label">Search &amp; Add Item</div>
+          <div style="position:relative">
+            <svg class="search-ico" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input class="add-item-input" id="item-search" type="text" placeholder="Type product name to search…" oninput="showItemDropdown()" onkeydown="itemSearchKey(event)" autocomplete="off">
+            <div class="item-dropdown" id="item-dropdown"></div>
           </div>
         </div>
 
-        <!-- TAB: Add Item -->
-        <div class="bill-tab-pane active" id="pane-add">
-          <div class="add-item-wrap">
-            <div class="add-item-label">Search product</div>
-            <div class="add-item-row">
-              <input class="add-item-input" id="item-search" type="text" placeholder="Type product name to search and add…" oninput="showItemDropdown()" onkeydown="itemSearchKey(event)" autocomplete="off">
-              <div class="item-dropdown" id="item-dropdown"></div>
+        <!-- Item detail card (shown when product is selected) -->
+        <div class="item-detail-card" id="item-detail-card">
+          <div class="idc-header">
+            <div>
+              <div class="idc-name" id="idc-name">—</div>
+              <div class="idc-cat" id="idc-cat">—</div>
             </div>
-            <div class="add-hint" id="add-hint">Type a name above — select from results to add to bill</div>
+            <button class="idc-close" onclick="closeItemDetail()">×</button>
           </div>
-          <div id="add-tab-empty" style="flex:1;display:flex;align-items:center;justify-content:center">
-            <div class="empty">
-              <div class="empty-ico">🔍</div>
-              <div class="empty-txt">Search any product to add it to this bill</div>
+          <div class="idc-body">
+            <div class="idc-fields">
+              <div>
+                <div class="idc-field-label">Cost Price</div>
+                <div class="idc-field-val" id="idc-cost">—</div>
+              </div>
+              <div>
+                <div class="idc-field-label">Selling Price (₹)</div>
+                <input class="idc-field-input" id="idc-sell" type="number" min="0" step="0.5" oninput="updateIdcTotal()">
+              </div>
+              <div>
+                <div class="idc-field-label">Quantity</div>
+                <input class="idc-field-input" id="idc-qty" type="number" min="1" step="1" value="1" oninput="updateIdcTotal()">
+              </div>
+            </div>
+            <div class="idc-footer">
+              <div class="idc-line-total">Line total: <strong id="idc-total">₹0.00</strong></div>
+              <button class="btn btn-primary" onclick="addFromDetail()">
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add to Bill
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- TAB: Delete Items -->
-        <div class="bill-tab-pane" id="pane-del">
-          <div class="empty" id="del-empty" style="padding:40px 0;display:flex;flex-direction:column;align-items:center">
-            <div class="empty-ico">🛒</div>
-            <div class="empty-txt">No items in bill yet</div>
+        <!-- Bill items (scrollable) -->
+        <div class="bill-items-area" id="bill-items-area">
+          <div class="empty" id="bill-empty" style="padding:40px 0">
+            <div class="empty-ico">🧾</div>
+            <div class="empty-txt">Search a product above and select it to start billing</div>
           </div>
-          <div class="del-items-list" id="del-items-list" style="display:none"></div>
         </div>
 
-        <!-- Fixed footer: totals + generate (always visible) -->
-        <div class="bill-footer-fixed" id="bill-totals">
-          <div id="bill-totals-rows" style="display:none;margin-bottom:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px">
+        <!-- Footer: totals + generate -->
+        <div class="bill-footer-fixed">
+          <div id="bill-totals-rows" style="display:none;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:12px">
             <div class="bill-row"><span>Subtotal</span><span id="b-subtotal">₹0.00</span></div>
             <div class="bill-row"><span id="b-gst-label">GST (5%)</span><span id="b-gst">₹0.00</span></div>
             <div class="bill-row grand"><span>Total</span><span id="b-total">₹0.00</span></div>
@@ -1004,32 +1023,33 @@ function saveRestock() {
 }
 
 // ── POS ───────────────────────────────────────────────
+let _idcPid = null; // currently selected product in detail card
+
 function renderPOS() {
-  renderCart();
   document.getElementById('item-search').value = '';
   closeItemDropdown();
+  closeItemDetail();
+  renderCart();
 }
 
 function showItemDropdown() {
   const q = document.getElementById('item-search').value.trim().toLowerCase();
   const dd = document.getElementById('item-dropdown');
   if (!q) { closeItemDropdown(); return; }
-
-  const matches = products.filter(p => p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q)).slice(0, 8);
+  const matches = products.filter(p => p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q)).slice(0,8);
   if (!matches.length) {
     dd.innerHTML = `<div class="item-no-results">No products match "<strong>${q}</strong>"</div>`;
-    dd.classList.add('open');
-    return;
+    dd.classList.add('open'); return;
   }
   dd.innerHTML = matches.map(p => `
     <div class="item-opt ${p.stock<=0?'out-opt':''}" onclick="${p.stock>0?`pickItem('${p.id}')`:''}" >
       <div>
-        <div class="item-opt-name">${highlight(p.name, q)}</div>
+        <div class="item-opt-name">${highlight(p.name,q)}</div>
         <div class="item-opt-cat">${p.cat}</div>
       </div>
       <div class="item-opt-right">
         <div class="item-opt-price">${inr(p.price)}<span style="font-size:10px;font-weight:400;color:var(--t3)">/${p.unit}</span></div>
-        <div class="item-opt-stock">${p.stock<=0?'Out of stock':p.stock+' available'}</div>
+        <div class="item-opt-stock">${p.stock<=0?'Out of stock':p.stock+' in stock'}</div>
       </div>
     </div>`).join('');
   dd.classList.add('open');
@@ -1038,13 +1058,59 @@ function showItemDropdown() {
 function highlight(text, q) {
   const idx = text.toLowerCase().indexOf(q);
   if (idx < 0) return text;
-  return text.slice(0,idx) + '<mark style="background:rgba(232,150,14,.25);border-radius:2px;padding:0 1px">' + text.slice(idx, idx+q.length) + '</mark>' + text.slice(idx+q.length);
+  return text.slice(0,idx)+'<mark style="background:rgba(232,150,14,.28);border-radius:2px;padding:0 1px">'+text.slice(idx,idx+q.length)+'</mark>'+text.slice(idx+q.length);
 }
 
 function pickItem(pid) {
-  addToCart(pid);
-  document.getElementById('item-search').value = '';
+  const p = products.find(x => x.id === pid);
+  if (!p) return;
+  _idcPid = pid;
   closeItemDropdown();
+  document.getElementById('item-search').value = '';
+
+  // Populate detail card
+  document.getElementById('idc-name').textContent = p.name;
+  document.getElementById('idc-cat').textContent = p.cat + ' · ' + p.stock + ' ' + p.unit + ' in stock';
+  document.getElementById('idc-cost').textContent = p.cost ? inr(p.cost)+' /'+p.unit : '—';
+  document.getElementById('idc-sell').value = p.price;
+  document.getElementById('idc-qty').value = 1;
+  document.getElementById('idc-qty').max = p.stock;
+  updateIdcTotal();
+  document.getElementById('item-detail-card').classList.add('show');
+  document.getElementById('idc-qty').focus();
+}
+
+function updateIdcTotal() {
+  const sell = parseFloat(document.getElementById('idc-sell').value) || 0;
+  const qty  = parseInt(document.getElementById('idc-qty').value)   || 0;
+  document.getElementById('idc-total').textContent = inr(sell * qty);
+}
+
+function closeItemDetail() {
+  _idcPid = null;
+  document.getElementById('item-detail-card').classList.remove('show');
+}
+
+function addFromDetail() {
+  if (!_idcPid) return;
+  const p = products.find(x => x.id === _idcPid);
+  if (!p) return;
+  const sell = parseFloat(document.getElementById('idc-sell').value);
+  const qty  = parseInt(document.getElementById('idc-qty').value);
+  if (!sell || sell <= 0) { showToast('Enter a valid selling price','warn'); return; }
+  if (!qty  || qty  <= 0) { showToast('Enter a valid quantity','warn'); return; }
+  if (qty > p.stock)      { showToast('Only '+p.stock+' '+p.unit+' in stock','warn'); return; }
+
+  const existing = cart.find(c => c.id === _idcPid);
+  if (existing) {
+    existing.qty   = qty;
+    existing.price = sell;
+  } else {
+    cart.push({id:_idcPid, name:p.name, price:sell, unit:p.unit, qty});
+  }
+  closeItemDetail();
+  renderCart();
+  showToast(p.name + ' added to bill', 'ok');
   document.getElementById('item-search').focus();
 }
 
@@ -1056,30 +1122,15 @@ function itemSearchKey(e) {
   if (e.key === 'Escape') { closeItemDropdown(); document.getElementById('item-search').value = ''; }
 }
 
-// Close dropdown when clicking outside
 document.addEventListener('click', e => {
-  if (!e.target.closest('.add-item-wrap')) closeItemDropdown();
+  if (!e.target.closest('.search-area')) closeItemDropdown();
 });
-
-function addToCart(pid) {
-  const p = products.find(x => x.id === pid);
-  if (!p || p.stock <= 0) return;
-  const existing = cart.find(c => c.id === pid);
-  if (existing) {
-    if (existing.qty >= p.stock) { showToast('Not enough stock', 'warn'); return; }
-    existing.qty++;
-  } else {
-    cart.push({id:pid, name:p.name, price:p.price, unit:p.unit, qty:1});
-  }
-  renderCart();
-}
 
 function changeQty(pid, delta) {
   const item = cart.find(c => c.id === pid);
   if (!item) return;
   const p = products.find(x => x.id === pid);
-  item.qty = Math.max(0, Math.min(item.qty + delta, p ? p.stock : 999));
-  if (item.qty === 0) cart = cart.filter(c => c.id !== pid);
+  item.qty = Math.max(1, Math.min(item.qty + delta, p ? p.stock : 999));
   renderCart();
 }
 
@@ -1090,68 +1141,50 @@ function removeFromCart(pid) {
 
 function clearCart() {
   cart = [];
-  switchBillTab('add');
+  closeItemDetail();
   renderCart();
 }
 
-function switchBillTab(tab) {
-  document.getElementById('tab-add').classList.toggle('active', tab === 'add');
-  document.getElementById('tab-del').classList.toggle('active', tab === 'del');
-  document.getElementById('pane-add').classList.toggle('active', tab === 'add');
-  document.getElementById('pane-del').classList.toggle('active', tab === 'del');
-}
-
 function renderCart() {
-  const btn = document.getElementById('complete-btn');
-  const badgeEl = document.getElementById('bill-no-badge');
-  const totalsRows = document.getElementById('bill-totals-rows');
-  const countBadge = document.getElementById('cart-count');
-  const delList = document.getElementById('del-items-list');
-  const delEmpty = document.getElementById('del-empty');
+  const btn       = document.getElementById('complete-btn');
+  const badgeEl   = document.getElementById('bill-no-badge');
+  const totalsRows= document.getElementById('bill-totals-rows');
+  const area      = document.getElementById('bill-items-area');
+  const emptyEl   = document.getElementById('bill-empty');
 
   badgeEl.textContent = nextBillNo();
-
-  // Cart count badge on tab
-  const totalQty = cart.reduce((a,i) => a+i.qty, 0);
-  countBadge.textContent = totalQty;
-  countBadge.style.display = totalQty > 0 ? '' : 'none';
-
   btn.disabled = !cart.length;
   totalsRows.style.display = cart.length ? '' : 'none';
 
   if (!cart.length) {
-    delList.style.display = 'none';
-    delList.innerHTML = '';
-    delEmpty.style.display = '';
+    area.innerHTML = '';
+    area.appendChild(emptyEl);
     return;
   }
 
-  const sub = cart.reduce((a,i) => a + i.qty*i.price, 0);
+  const sub  = cart.reduce((a,i) => a + i.qty*i.price, 0);
   const rate = settings.gstRate || 5;
-  const gst = sub * rate / 100;
-  const total = sub + gst;
+  const gst  = sub * rate / 100;
+  const total= sub + gst;
 
   document.getElementById('b-subtotal').textContent = inr(sub);
   document.getElementById('b-gst-label').textContent = `GST (${rate}%)`;
   document.getElementById('b-gst').textContent = inr(gst);
-  document.getElementById('b-total').textContent = inr(total);
+  document.getElementById('b-total').textContent   = inr(total);
 
-  // Delete Items tab — show items with remove button + qty controls
-  delEmpty.style.display = 'none';
-  delList.style.display = '';
-  delList.innerHTML = cart.map(item => `
-    <div class="del-item-row">
-      <div class="del-item-info">
-        <div class="del-item-name">${item.name}</div>
-        <div class="del-item-sub">${inr(item.price)} / ${item.unit} &nbsp;·&nbsp; ${item.qty} × ${inr(item.price)} = ${inr(item.qty*item.price)}</div>
+  area.innerHTML = cart.map(item => `
+    <div class="bill-item-row">
+      <div class="bitem-info">
+        <div class="bitem-name">${item.name}</div>
+        <div class="bitem-price">${inr(item.price)} / ${item.unit}</div>
       </div>
-      <div class="del-item-qty">
+      <div class="bitem-qty">
         <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
         <span class="qty-n">${item.qty}</span>
         <button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button>
       </div>
-      <div class="del-item-amt">${inr(item.qty*item.price)}</div>
-      <button class="del-btn" onclick="removeFromCart('${item.id}')" title="Remove item">×</button>
+      <div class="bitem-amt">${inr(item.qty*item.price)}</div>
+      <button class="rm-btn" onclick="removeFromCart('${item.id}')" title="Remove">×</button>
     </div>`).join('');
 }
 
