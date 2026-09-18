@@ -1507,6 +1507,7 @@ function toggleUserDropdown() {
 
 function logout() {
   localStorage.removeItem(AUTH_KEY);
+  localStorage.removeItem(SETTINGS_KEY);
   if (typeof google !== 'undefined' && google.accounts) google.accounts.id.disableAutoSelect();
   location.reload();
 }
