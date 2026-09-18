@@ -879,9 +879,10 @@ function populateCatFilter(selectId) {
 }
 
 function stockPriority(p) {
-  if (p.stock <= 0) return 0;
-  if (p.stock <= p.minStock) return 1;
-  return 2;
+  if (p.stock <= 0) return 0;                                        // red  – out of stock
+  if (p.stock <= p.minStock) return 1;                               // amber – below min
+  if (p.stock / Math.max(p.minStock * 3, 1) < 0.6) return 2;       // amber – mid / running low
+  return 3;                                                           // green – well stocked
 }
 
 function renderInventory() {
@@ -912,9 +913,9 @@ function renderInventory() {
 
     let rowBg = '', firstTdBorder = '';
     if (_invStockSort) {
-      if (pri === 0) { rowBg = 'background:var(--err-bg)'; firstTdBorder = 'border-left:3px solid var(--err)'; }
-      else if (pri === 1) { rowBg = 'background:var(--warn-bg)'; firstTdBorder = 'border-left:3px solid var(--warn)'; }
-      else { rowBg = 'background:var(--ok-bg)'; firstTdBorder = 'border-left:3px solid var(--ok)'; }
+      if (pri === 0)      { rowBg = 'background:var(--err-bg)';  firstTdBorder = 'border-left:3px solid var(--err)'; }
+      else if (pri <= 2)  { rowBg = 'background:var(--warn-bg)'; firstTdBorder = 'border-left:3px solid var(--warn)'; }
+      else                { rowBg = 'background:var(--ok-bg)';   firstTdBorder = 'border-left:3px solid var(--ok)'; }
     }
 
     return `<tr style="${rowBg}">
