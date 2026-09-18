@@ -1364,15 +1364,13 @@ function renderCart() {
   const badgeEl   = document.getElementById('bill-no-badge');
   const totalsRows= document.getElementById('bill-totals-rows');
   const area      = document.getElementById('bill-items-area');
-  const emptyEl   = document.getElementById('bill-empty');
 
   badgeEl.textContent = nextBillNo();
   btn.disabled = !cart.length;
   totalsRows.style.display = cart.length ? '' : 'none';
 
   if (!cart.length) {
-    area.innerHTML = '';
-    area.appendChild(emptyEl);
+    area.innerHTML = '<div class="empty" style="padding:40px 0"><div class="empty-ico">🧾</div><div class="empty-txt">Search a product above and select it to start billing</div></div>';
     return;
   }
 
@@ -1408,39 +1406,35 @@ function renderCart() {
 }
 
 function completeSale() {
-  try {
-    if (!cart.length) { alert('Cart is empty'); return; }
-    const sub = cart.reduce((a,i) => a + i.qty*i.price, 0);
-    const rate = settings.gstRate || 5;
-    const gst = +(sub * rate / 100).toFixed(2);
-    const total = +(sub + gst).toFixed(2);
-    const customer = document.getElementById('bill-customer').value.trim() || 'Walk-in Customer';
-    const billNo = nextBillNo();
+  if (!cart.length) return;
+  const sub = cart.reduce((a,i) => a + i.qty*i.price, 0);
+  const rate = settings.gstRate || 5;
+  const gst = +(sub * rate / 100).toFixed(2);
+  const total = +(sub + gst).toFixed(2);
+  const customer = document.getElementById('bill-customer').value.trim() || 'Walk-in Customer';
+  const billNo = nextBillNo();
 
-    cart.forEach(item => {
-      const p = products.find(x => x.id === item.id);
-      if (p) p.stock = Math.max(0, p.stock - item.qty);
-    });
+  cart.forEach(item => {
+    const p = products.find(x => x.id === item.id);
+    if (p) p.stock = Math.max(0, p.stock - item.qty);
+  });
 
-    const sale = {
-      id: billNo, billNo, ts: Date.now(), customer,
-      items: cart.map(i => ({...i})),
-      subtotal: sub, gst, total
-    };
-    sales.push(sale);
-    saveData();
+  const sale = {
+    id: billNo, billNo, ts: Date.now(), customer,
+    items: cart.map(i => ({...i})),
+    subtotal: sub, gst, total
+  };
+  sales.push(sale);
+  saveData();
 
-    cart = [];
-    document.getElementById('bill-customer').value = '';
-    document.getElementById('item-search').value = '';
-    closeItemDropdown();
-    renderCart();
-    updateSidebarStats();
-    showReceipt(sale.id);
-    showToast('Bill ' + billNo + ' generated!', 'ok');
-  } catch(e) {
-    alert('Error: ' + e.message + '\n' + e.stack);
-  }
+  cart = [];
+  document.getElementById('bill-customer').value = '';
+  document.getElementById('item-search').value = '';
+  closeItemDropdown();
+  renderCart();
+  updateSidebarStats();
+  showReceipt(sale.id);
+  showToast('Bill ' + billNo + ' generated!', 'ok');
 }
 
 // ── Receipt ───────────────────────────────────────────
