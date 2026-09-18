@@ -819,7 +819,12 @@ function makeSale(billNo, ts, customer, items) {
 function loadData() {
   try {
     const sp = localStorage.getItem(SETTINGS_KEY);
-    settings = sp ? JSON.parse(sp) : {...SEED_SETTINGS};
+    if (sp) {
+      settings = JSON.parse(sp);
+    } else {
+      const defaultName = (_authUser && _authUser.name) ? _authUser.name + "'s Store" : SEED_SETTINGS.storeName;
+      settings = {...SEED_SETTINGS, storeName: defaultName, ownerName: (_authUser && _authUser.name) ? _authUser.name : SEED_SETTINGS.ownerName};
+    }
     const pp = localStorage.getItem(PRODUCTS_KEY);
     products = pp ? JSON.parse(pp) : SEED_PRODUCTS.map(p=>({...p}));
     const sl = localStorage.getItem(SALES_KEY);
