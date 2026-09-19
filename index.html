@@ -69,7 +69,7 @@ button,select,input{font-family:inherit}
 .page.page-newsale.active{display:flex;flex-direction:column;overflow:hidden;padding:16px;height:calc(100vh - 54px)}
 
 /* Stats */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:16px}
 .stat-tile{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:28px 24px 24px;box-shadow:var(--sh0);cursor:pointer;transition:box-shadow .18s,transform .14s,border-color .18s;position:relative;overflow:hidden;text-decoration:none;display:block}
 .stat-tile:hover{box-shadow:var(--sh2);transform:translateY(-2px);border-color:var(--accent)}
 .stat-tile:active{transform:translateY(0)}
@@ -308,6 +308,23 @@ button,select,input{font-family:inherit}
 .user-dd-btn{display:flex;align-items:center;gap:8px;padding:10px 16px;cursor:pointer;font-size:13px;color:var(--err);transition:background .12s;border:none;background:none;width:100%;text-align:left;font-family:inherit;font-weight:600}
 .user-dd-btn:hover{background:var(--err-bg)}
 
+/* Payment mode selector */
+.pay-modes{display:flex;gap:6px;margin-top:4px}
+.pay-mode-btn{flex:1;padding:8px 6px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--surface);color:var(--t2);cursor:pointer;font-size:12px;font-weight:700;transition:all .15s;text-align:center;font-family:inherit}
+.pay-mode-btn:hover{border-color:var(--accent);color:var(--accent)}
+.pay-mode-btn.active{background:var(--brand);border-color:var(--brand);color:#fff}
+
+/* Customer / Khata */
+.customer-avatar{width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex-shrink:0;text-transform:uppercase}
+.khata-bal-owe{color:var(--err);font-weight:800;font-variant-numeric:tabular-nums}
+.khata-bal-credit{color:var(--ok);font-weight:800;font-variant-numeric:tabular-nums}
+.khata-bal-zero{color:var(--t3);font-weight:600}
+.khata-strip{background:var(--err-bg);border:1px solid var(--err);border-radius:var(--r);padding:12px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+/* Purchase form */
+.purch-item-table{width:100%;border-collapse:collapse}
+.purch-item-table th{background:var(--surface-2);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);padding:7px 4px;border-bottom:1px solid var(--border)}
+
 /* Scrollbar */
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
@@ -381,6 +398,15 @@ button,select,input{font-family:inherit}
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
       Sales History
     </div>
+    <div class="nav-section-label">Finance</div>
+    <div class="nav-item" data-view="khata" onclick="navigate('khata')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+      Khata / Udhaar
+    </div>
+    <div class="nav-item" data-view="purchases" onclick="navigate('purchases')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Purchases
+    </div>
     <div class="nav-section-label">Settings</div>
     <div class="nav-item" onclick="openSettings()">
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
@@ -391,6 +417,7 @@ button,select,input{font-family:inherit}
     <div class="sb-stat-row"><span class="sb-stat-label">Today's Revenue</span><span class="sb-stat-val" id="sb-revenue">₹0</span></div>
     <div class="sb-stat-row"><span class="sb-stat-label">Bills Today</span><span class="sb-stat-val" id="sb-bills">0</span></div>
     <div class="sb-stat-row"><span class="sb-stat-label">Low Stock</span><span class="sb-stat-val" id="sb-low">0</span></div>
+    <div class="sb-stat-row"><span class="sb-stat-label">Khata Due</span><span class="sb-stat-val" id="sb-khata" style="color:#E05A4A">₹0</span></div>
     <button class="theme-btn" onclick="toggleTheme()">
       <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       Toggle Theme
@@ -458,6 +485,12 @@ button,select,input{font-family:inherit}
         <div class="stat-tile-label">Low Stock Alerts</div>
         <div class="stat-tile-val warn" id="d-low">0</div>
         <div class="stat-tile-sub">products need restock</div>
+        <div class="stat-tile-arrow">→</div>
+      </div>
+      <div class="stat-tile" onclick="navigate('khata')" title="View khata ledger">
+        <div class="stat-tile-label">Khata Outstanding</div>
+        <div class="stat-tile-val err" id="d-khata">₹0</div>
+        <div class="stat-tile-sub" id="d-khata-sub">from 0 customers</div>
         <div class="stat-tile-arrow">→</div>
       </div>
     </div>
@@ -573,9 +606,25 @@ button,select,input{font-family:inherit}
             <div class="bill-row"><span id="b-gst-label">GST (5%)</span><span id="b-gst">₹0.00</span></div>
             <div class="bill-row grand"><span>Total</span><span id="b-total">₹0.00</span></div>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="margin-bottom:8px">
+            <label class="form-label">Payment Mode</label>
+            <div class="pay-modes">
+              <button type="button" class="pay-mode-btn active" data-mode="cash" onclick="setPayMode('cash')">💵 Cash</button>
+              <button type="button" class="pay-mode-btn" data-mode="upi" onclick="setPayMode('upi')">📱 UPI</button>
+              <button type="button" class="pay-mode-btn" data-mode="khata" onclick="setPayMode('khata')">📒 Khata</button>
+            </div>
+          </div>
+          <div id="bill-cust-cash-row" class="form-group">
             <label class="form-label">Customer Name <span style="font-weight:400;text-transform:none;font-size:11px">(optional)</span></label>
             <input class="form-input" id="bill-customer" type="text" placeholder="Walk-in Customer">
+          </div>
+          <div id="khata-cust-row" style="display:none" class="form-group">
+            <label class="form-label">Customer <span style="font-weight:400;text-transform:none;font-size:11px;color:var(--err)">* required for Khata</span></label>
+            <div style="position:relative">
+              <input class="form-input" id="khata-cust-input" type="text" placeholder="Search name or phone…" oninput="showCustDropdown()" autocomplete="off">
+              <div class="item-dropdown" id="cust-dropdown" style="left:0;right:0"></div>
+              <input type="hidden" id="khata-cust-id">
+            </div>
           </div>
           <button class="btn btn-brand btn-full btn-lg" onclick="completeSale()" id="complete-btn" disabled>
             <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
@@ -604,6 +653,34 @@ button,select,input{font-family:inherit}
     </div>
     <div id="hist-list"></div>
   </div>
+  <!-- KHATA -->
+  <div class="page" id="page-khata">
+    <div class="khata-strip">
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--err);margin-bottom:2px">Total Outstanding</div>
+        <div style="font-size:26px;font-weight:800;color:var(--err);font-variant-numeric:tabular-nums" id="khata-outstanding">₹0.00</div>
+      </div>
+      <button class="btn btn-primary" onclick="openAddCustomer()">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Customer
+      </button>
+    </div>
+    <div id="khata-list"></div>
+  </div>
+
+  <!-- PURCHASES -->
+  <div class="page" id="page-purchases">
+    <div class="inv-bar" style="margin-bottom:16px">
+      <div style="font-size:13px;color:var(--t2)">Total Purchased: <span id="purch-total-spend" style="font-weight:800;color:var(--brand);font-variant-numeric:tabular-nums">₹0</span></div>
+      <div style="flex:1"></div>
+      <button class="btn btn-primary" onclick="openNewPurchase()">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Purchase
+      </button>
+    </div>
+    <div id="purch-list"></div>
+  </div>
+
 </div><!-- /main -->
 </div><!-- /shell -->
 
@@ -819,19 +896,117 @@ button,select,input{font-family:inherit}
   </div>
 </div>
 
+<!-- Add / Edit Customer -->
+<div class="modal-bd" id="modal-customer">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-head">
+      <div class="modal-title" id="cust-modal-title">Add Customer</div>
+      <button class="close-btn" onclick="closeModal('modal-customer')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-cust-id">
+      <div class="form-group">
+        <label class="form-label">Customer Name *</label>
+        <input class="form-input" id="cust-name" type="text" placeholder="e.g. Priya Sharma">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input class="form-input" id="cust-phone" type="tel" placeholder="10-digit mobile number" maxlength="15">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeModal('modal-customer')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCustomer()">Save Customer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Record Khata Payment -->
+<div class="modal-bd" id="modal-khata-pay">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">Record Payment</div>
+        <div id="khata-pay-cname" style="font-size:12px;color:var(--t3);margin-top:2px"></div>
+      </div>
+      <button class="close-btn" onclick="closeModal('modal-khata-pay')">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="margin-bottom:14px;padding:10px 14px;background:var(--err-bg);border-radius:var(--r);font-size:13px;font-weight:700;color:var(--err)" id="khata-pay-bal"></div>
+      <div class="form-group">
+        <label class="form-label">Amount Received (₹) *</label>
+        <input class="form-input" id="khata-pay-amount" type="number" min="1" step="0.5" placeholder="0.00" style="font-size:20px;font-weight:800;text-align:center">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Note</label>
+        <input class="form-input" id="khata-pay-note" type="text" placeholder="e.g. Cash payment, UPI transfer">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeModal('modal-khata-pay')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveKhataPayment()">Record Payment</button>
+    </div>
+  </div>
+</div>
+
+<!-- New Purchase -->
+<div class="modal-bd" id="modal-purchase">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-head">
+      <div class="modal-title">New Purchase</div>
+      <button class="close-btn" onclick="closeModal('modal-purchase')">×</button>
+    </div>
+    <div class="modal-body" style="max-height:70vh;overflow-y:auto">
+      <div class="form-group">
+        <label class="form-label">Supplier / Distributor *</label>
+        <input class="form-input" id="purch-supplier" type="text" placeholder="e.g. Sharma Distributors">
+      </div>
+      <label class="form-label" style="display:block;margin-bottom:8px">Items Purchased</label>
+      <table class="purch-item-table">
+        <thead><tr>
+          <th style="width:38%;text-align:left">Product</th>
+          <th style="width:14%;text-align:center">Qty</th>
+          <th style="width:18%;text-align:left">Cost/Unit (₹)</th>
+          <th style="width:20%;text-align:right">Total</th>
+          <th style="width:10%"></th>
+        </tr></thead>
+        <tbody id="purch-items-body"></tbody>
+      </table>
+      <button type="button" class="btn btn-ghost btn-sm" onclick="addPurchItem()" style="margin-top:6px">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Item
+      </button>
+      <div style="margin-top:14px;padding-top:12px;border-top:1.5px dashed var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <span style="font-size:12px;color:var(--t3)">Stock will be updated automatically on save</span>
+        <div style="font-size:15px;font-weight:800;font-variant-numeric:tabular-nums">Total: <span id="purch-grand-total">₹0.00</span></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeModal('modal-purchase')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePurchase()">Save &amp; Update Stock</button>
+    </div>
+  </div>
+</div>
+
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <!-- ===== SCRIPT ===== -->
 <script>
 // ── State ──────────────────────────────────────────────
-const PRODUCTS_KEY = 'kb_products';
-const SALES_KEY    = 'kb_sales';
-const SETTINGS_KEY = 'kb_settings';
+const PRODUCTS_KEY  = 'kb_products';
+const SALES_KEY     = 'kb_sales';
+const SETTINGS_KEY  = 'kb_settings';
+const CUSTOMERS_KEY = 'kb_customers';
+const KHATA_KEY     = 'kb_khata';
+const PURCHASES_KEY = 'kb_purchases';
 
 let products = [], sales = [], settings = {}, cart = [];
+let customers = [], khata = [], purchases = [];
 let currentView = 'dashboard';
 let _invStockSort = false;
+let _payMode = 'cash';
+let _khataCustomerId = null;
 
 // ── Seed data ──────────────────────────────────────────
 const SEED_SETTINGS = {
@@ -856,6 +1031,36 @@ const SEED_PRODUCTS = [
   {id:'p13',name:'Surf Excel 500g',         cat:'Household',        unit:'pack',   price:88,  cost:70,  mrp:105,  stock:20,  minStock:5,  barcode:'8901030875700'},
   {id:'p14',name:'Amul Milk 500ml',         cat:'Dairy',            unit:'pack',   price:28,  cost:24,  mrp:32,   stock:0,   minStock:15, barcode:'8901088010008'},
 ];
+
+const SEED_CUSTOMERS = [
+  {id:'c1', name:'Priya Sharma',  phone:'9876543210', ts: Date.now()-7*86400000},
+  {id:'c2', name:'Rajesh Kumar',  phone:'9123456789', ts: Date.now()-14*86400000},
+  {id:'c3', name:'Sunita Devi',   phone:'9988776655', ts: Date.now()-3*86400000},
+];
+
+function seedKhata() {
+  const now = Date.now(), day = 86400000;
+  return [
+    {id:'kh1', customerId:'c1', type:'credit',  amount:410,  ref:'KR-001', note:'Sale on khata',    ts: now-6*day},
+    {id:'kh2', customerId:'c1', type:'payment', amount:200,  ref:'',       note:'Cash payment',     ts: now-4*day},
+    {id:'kh3', customerId:'c2', type:'credit',  amount:649,  ref:'KR-003', note:'Sale on khata',    ts: now-13*day},
+    {id:'kh3b',customerId:'c2', type:'payment', amount:150,  ref:'',       note:'Partial payment',  ts: now-8*day},
+    {id:'kh4', customerId:'c3', type:'credit',  amount:450,  ref:'KR-005', note:'Sale on khata',    ts: now-2*day},
+    {id:'kh5', customerId:'c3', type:'payment', amount:450,  ref:'',       note:'UPI transfer',     ts: now-day},
+  ];
+}
+
+function seedPurchases() {
+  const now = Date.now(), day = 86400000;
+  return [
+    {id:'po1', billNo:'PO-001', supplier:'Sharma Distributors', ts: now-10*day,
+     items:[{id:'p1',name:'Basmati Rice',qty:50,cost:78,unit:'kg'},{id:'p2',name:'Toor Dal',qty:25,cost:102,unit:'kg'}],
+     subtotal: 50*78+25*102},
+    {id:'po2', billNo:'PO-002', supplier:'Gupta & Sons Wholesale', ts: now-5*day,
+     items:[{id:'p9',name:'Parle-G Original 80g',qty:100,cost:7,unit:'pack'},{id:'p6',name:'Maggi Noodles 70g',qty:50,cost:11,unit:'pack'}],
+     subtotal: 100*7+50*11},
+  ];
+}
 
 function seedSales() {
   const now = Date.now();
@@ -897,23 +1102,35 @@ function loadData() {
     });
     const sl = localStorage.getItem(SALES_KEY);
     sales = sl ? JSON.parse(sl) : seedSales();
+    const cu = localStorage.getItem(CUSTOMERS_KEY);
+    customers = cu ? JSON.parse(cu) : SEED_CUSTOMERS.map(c=>({...c}));
+    const kh = localStorage.getItem(KHATA_KEY);
+    khata = kh ? JSON.parse(kh) : seedKhata();
+    const pu = localStorage.getItem(PURCHASES_KEY);
+    purchases = pu ? JSON.parse(pu) : seedPurchases();
   } catch(e) {
     settings = {...SEED_SETTINGS};
     products = SEED_PRODUCTS.map(p=>({...p}));
     sales = seedSales();
+    customers = SEED_CUSTOMERS.map(c=>({...c}));
+    khata = seedKhata();
+    purchases = seedPurchases();
   }
 }
 
 function saveData() {
   try {
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
-    localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
-    localStorage.setItem(SALES_KEY, JSON.stringify(sales));
+    localStorage.setItem(SETTINGS_KEY,  JSON.stringify(settings));
+    localStorage.setItem(PRODUCTS_KEY,  JSON.stringify(products));
+    localStorage.setItem(SALES_KEY,     JSON.stringify(sales));
+    localStorage.setItem(CUSTOMERS_KEY, JSON.stringify(customers));
+    localStorage.setItem(KHATA_KEY,     JSON.stringify(khata));
+    localStorage.setItem(PURCHASES_KEY, JSON.stringify(purchases));
   } catch(e) {}
 }
 
 // ── Navigation ────────────────────────────────────────
-const VIEW_TITLES = {dashboard:'Dashboard', inventory:'Inventory', newsale:'New Sale', history:'Sales History'};
+const VIEW_TITLES = {dashboard:'Dashboard', inventory:'Inventory', newsale:'New Sale', history:'Sales History', khata:'Khata Ledger', purchases:'Purchases'};
 
 function navigate(view, stockSort) {
   currentView = view;
@@ -927,6 +1144,8 @@ function navigate(view, stockSort) {
   else if (view === 'inventory') renderInventory();
   else if (view === 'newsale') renderPOS();
   else if (view === 'history') renderHistory();
+  else if (view === 'khata') renderKhata();
+  else if (view === 'purchases') renderPurchases();
   updateSidebarStats();
 }
 
@@ -984,13 +1203,19 @@ function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
 // ── Sidebar stats ─────────────────────────────────────
+function customerBalance(cid) {
+  return khata.filter(k=>k.customerId===cid).reduce((a,k)=>a+(k.type==='credit'?k.amount:-k.amount),0);
+}
+
 function updateSidebarStats() {
   const todaySales = sales.filter(s => isToday(s.ts));
   const rev = todaySales.reduce((a,s) => a+s.total, 0);
   const low = products.filter(p => p.stock <= p.minStock).length;
+  const totalKhata = customers.reduce((a,c)=>{const b=customerBalance(c.id);return a+(b>0?b:0);},0);
   document.getElementById('sb-revenue').textContent = inrShort(rev);
   document.getElementById('sb-bills').textContent = todaySales.length;
   document.getElementById('sb-low').textContent = low;
+  document.getElementById('sb-khata').textContent = inrShort(totalKhata);
 }
 
 // ── Dashboard ─────────────────────────────────────────
@@ -1000,12 +1225,17 @@ function renderDashboard() {
   const items = todaySales.reduce((a,s) => a + s.items.reduce((b,i) => b+i.qty, 0), 0);
   const lowProds = products.filter(p => p.stock <= p.minStock);
 
+  const khataOwing = customers.filter(c=>customerBalance(c.id)>0);
+  const totalKhata = khataOwing.reduce((a,c)=>a+customerBalance(c.id),0);
+
   document.getElementById('d-revenue').textContent = inrShort(rev);
   document.getElementById('d-revenue-sub').textContent = todaySales.length ? `from ${todaySales.length} bill${todaySales.length>1?'s':''}` : 'No sales yet today';
   document.getElementById('d-bills').textContent = todaySales.length;
   document.getElementById('d-bills-sub').textContent = todaySales.length === 1 ? 'transaction' : 'transactions';
   document.getElementById('d-items').textContent = items;
   document.getElementById('d-low').textContent = lowProds.length;
+  document.getElementById('d-khata').textContent = inrShort(totalKhata);
+  document.getElementById('d-khata-sub').textContent = `from ${khataOwing.length} customer${khataOwing.length!==1?'s':''}`;
 }
 
 // ── Inventory ─────────────────────────────────────────
@@ -1178,6 +1408,7 @@ function renderPOS() {
   document.getElementById('item-search').value = '';
   closeItemDropdown();
   closeItemDetail();
+  setPayMode('cash');
   renderCart();
 }
 
@@ -1297,6 +1528,13 @@ function itemSearchKey(e) {
 
 document.addEventListener('click', e => {
   if (!e.target.closest('.search-area')) closeItemDropdown();
+  if (!e.target.closest('#khata-cust-input') && !e.target.closest('#cust-dropdown')) {
+    const dd = document.getElementById('cust-dropdown');
+    if (dd) dd.classList.remove('open');
+  }
+  if (!e.target.closest('.item-dropdown[id^="pi-dd"]') && !e.target.closest('[id^="pi-name-"]')) {
+    document.querySelectorAll('[id^="pi-dd-"]').forEach(dd=>dd.classList.remove('open'));
+  }
   if (!e.target.closest('.user-avatar-wrap')) {
     const dd = document.getElementById('user-dropdown');
     if (dd) dd.classList.remove('open');
@@ -1407,11 +1645,16 @@ function renderCart() {
 
 function completeSale() {
   if (!cart.length) return;
+  if (_payMode === 'khata' && !_khataCustomerId) {
+    showToast('Select a customer for Khata sale', 'warn'); return;
+  }
   const sub = cart.reduce((a,i) => a + i.qty*i.price, 0);
   const rate = settings.gstRate || 5;
   const gst = +(sub * rate / 100).toFixed(2);
   const total = +(sub + gst).toFixed(2);
-  const customer = document.getElementById('bill-customer').value.trim() || 'Walk-in Customer';
+  const khataC = _khataCustomerId ? customers.find(x=>x.id===_khataCustomerId) : null;
+  const customer = _payMode==='khata' && khataC ? khataC.name
+    : (document.getElementById('bill-customer').value.trim() || 'Walk-in Customer');
   const billNo = nextBillNo();
 
   cart.forEach(item => {
@@ -1422,15 +1665,22 @@ function completeSale() {
   const sale = {
     id: billNo, billNo, ts: Date.now(), customer,
     items: cart.map(i => ({...i})),
-    subtotal: sub, gst, total
+    subtotal: sub, gst, total,
+    paymentMode: _payMode,
+    customerId: _khataCustomerId || null
   };
   sales.push(sale);
-  saveData();
 
+  if (_payMode === 'khata' && _khataCustomerId) {
+    khata.push({id:'kh'+Date.now(), customerId:_khataCustomerId, type:'credit', amount:total, ref:billNo, note:'Sale on khata', ts:Date.now()});
+  }
+
+  saveData();
   cart = [];
   document.getElementById('bill-customer').value = '';
   document.getElementById('item-search').value = '';
   closeItemDropdown();
+  setPayMode('cash');
   renderCart();
   updateSidebarStats();
   showReceipt(sale.id);
@@ -1461,6 +1711,7 @@ function showReceipt(saleId) {
     + '<hr class="receipt-hr">'
     + '<div class="receipt-row"><span>Bill No: <strong>' + sale.billNo + '</strong></span><span>' + fmt_date(sale.ts) + '</span></div>'
     + '<div class="receipt-row"><span>Time: ' + fmt_time(sale.ts) + '</span><span>Customer: ' + sale.customer + '</span></div>'
+    + '<div class="receipt-row"><span>Payment</span><span>' + ({cash:'Cash',upi:'UPI',khata:'On Khata'}[sale.paymentMode]||'Cash') + '</span></div>'
     + '<hr class="receipt-hr">'
     + '<div class="receipt-row bold"><span style="flex:1">ITEM</span><span>QTY</span><span style="min-width:60px;text-align:right">AMT</span></div>'
     + '<hr class="receipt-hr">'
@@ -1642,6 +1893,354 @@ function oosReplaceDelete() {
   showToast(p.name + ' deleted', '');
   navigate('inventory');
   setTimeout(() => openAddProduct(), 80);
+}
+
+// ── Payment mode (New Sale) ───────────────────────────
+function setPayMode(mode) {
+  _payMode = mode;
+  document.querySelectorAll('.pay-mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+  const khataRow = document.getElementById('khata-cust-row');
+  const cashRow  = document.getElementById('bill-cust-cash-row');
+  if (khataRow) khataRow.style.display = mode === 'khata' ? '' : 'none';
+  if (cashRow)  cashRow.style.display  = mode !== 'khata' ? '' : 'none';
+  if (mode !== 'khata') {
+    _khataCustomerId = null;
+    const ki = document.getElementById('khata-cust-id');
+    const kn = document.getElementById('khata-cust-input');
+    if (ki) ki.value = '';
+    if (kn) kn.value = '';
+  }
+}
+
+function showCustDropdown() {
+  const input = document.getElementById('khata-cust-input');
+  const q = input ? input.value.trim().toLowerCase() : '';
+  const dd = document.getElementById('cust-dropdown');
+  if (!dd) return;
+  if (!q) { dd.classList.remove('open'); return; }
+  const matches = customers.filter(c => c.name.toLowerCase().includes(q) || (c.phone && c.phone.includes(q))).slice(0,6);
+  let html = matches.map(c => {
+    const bal = customerBalance(c.id);
+    const balTxt = bal > 0 ? ` <span style="color:var(--err);font-size:10.5px">(owes ${inrShort(bal)})</span>` : '';
+    return `<div class="item-opt" onclick="selectKhataCustomer('${c.id}')">
+      <div><div class="item-opt-name">${c.name}${balTxt}</div><div class="item-opt-cat">${c.phone||'No phone'}</div></div>
+    </div>`;
+  }).join('');
+  const rawQ = document.getElementById('khata-cust-input').value.trim();
+  const exactMatch = matches.some(c=>c.name.toLowerCase()===q);
+  if (!exactMatch && rawQ.length >= 2) {
+    html += `<div class="item-opt" onclick="createAndSelectCustomer(this)" data-name="${rawQ.replace(/"/g,'&quot;')}">
+      <div><div class="item-opt-name" style="color:var(--ok)">+ Add "${rawQ}" as new customer</div></div>
+    </div>`;
+  }
+  dd.innerHTML = html || '<div class="item-no-results">No customers found</div>';
+  dd.classList.add('open');
+}
+
+function selectKhataCustomer(cid) {
+  _khataCustomerId = cid;
+  const c = customers.find(x=>x.id===cid);
+  if (c) {
+    const inp = document.getElementById('khata-cust-input');
+    if (inp) inp.value = c.name + (c.phone ? ' — ' + c.phone : '');
+  }
+  const hid = document.getElementById('khata-cust-id');
+  if (hid) hid.value = cid;
+  const dd = document.getElementById('cust-dropdown');
+  if (dd) dd.classList.remove('open');
+}
+
+function createAndSelectCustomer(el) {
+  const name = el.dataset.name;
+  const newC = {id:'c'+Date.now(), name, phone:'', ts:Date.now()};
+  customers.push(newC);
+  saveData();
+  selectKhataCustomer(newC.id);
+  showToast(name + ' added as customer', 'ok');
+}
+
+// ── Customer CRM ───────────────────────────────────────
+function openAddCustomer() {
+  document.getElementById('cust-modal-title').textContent = 'Add Customer';
+  document.getElementById('edit-cust-id').value = '';
+  document.getElementById('cust-name').value = '';
+  document.getElementById('cust-phone').value = '';
+  openModal('modal-customer');
+}
+
+function openEditCustomer(id) {
+  const c = customers.find(x=>x.id===id);
+  if (!c) return;
+  document.getElementById('cust-modal-title').textContent = 'Edit Customer';
+  document.getElementById('edit-cust-id').value = id;
+  document.getElementById('cust-name').value = c.name;
+  document.getElementById('cust-phone').value = c.phone || '';
+  openModal('modal-customer');
+}
+
+function saveCustomer() {
+  const name  = document.getElementById('cust-name').value.trim();
+  const phone = document.getElementById('cust-phone').value.trim();
+  if (!name) { showToast('Enter customer name', 'warn'); return; }
+  const eid = document.getElementById('edit-cust-id').value;
+  if (eid) {
+    const c = customers.find(x=>x.id===eid);
+    if (c) { c.name=name; c.phone=phone; }
+  } else {
+    customers.push({id:'c'+Date.now(), name, phone, ts:Date.now()});
+  }
+  saveData();
+  closeModal('modal-customer');
+  renderKhata();
+  showToast(eid ? 'Customer updated' : 'Customer added', 'ok');
+}
+
+function deleteCustomer(id) {
+  const c = customers.find(x=>x.id===id);
+  if (!c) return;
+  if (!confirm('Delete ' + c.name + '? All their khata history will also be removed.')) return;
+  customers = customers.filter(x=>x.id!==id);
+  khata = khata.filter(k=>k.customerId!==id);
+  saveData();
+  renderKhata();
+  updateSidebarStats();
+  showToast('Customer deleted');
+}
+
+// ── Khata Ledger ──────────────────────────────────────
+function renderKhata() {
+  const owing = customers.filter(c=>customerBalance(c.id)>0);
+  const total = owing.reduce((a,c)=>a+customerBalance(c.id),0);
+  const el = document.getElementById('khata-outstanding');
+  if (el) el.textContent = inr(total);
+
+  const list = document.getElementById('khata-list');
+  if (!list) return;
+  if (!customers.length) {
+    list.innerHTML = '<div class="empty"><div class="empty-ico">📒</div><div class="empty-txt">No customers yet. Add a customer and start giving udhaar.</div></div>';
+    return;
+  }
+  const sorted = [...customers].sort((a,b)=>customerBalance(b.id)-customerBalance(a.id));
+
+  list.innerHTML = sorted.map(function(c) {
+    const bal = customerBalance(c.id);
+    var balClass = bal>0 ? 'khata-bal-owe' : bal<0 ? 'khata-bal-credit' : 'khata-bal-zero';
+    var balTxt   = bal>0 ? 'Owes '+inr(bal) : bal<0 ? 'Advance '+inr(-bal) : 'Settled ✓';
+    var txns = khata.filter(k=>k.customerId===c.id).sort(function(a,b){return b.ts-a.ts;});
+    var payBtn = bal>0 ? '<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openKhataPayment(\''+c.id+'\')" style="margin-left:8px">Pay</button>' : '';
+    return '<div class="sale-card">'
+      + '<div class="sale-card-head" onclick="toggleSaleCard(\'kh-'+c.id+'\')">'
+      + '<div class="customer-avatar">'+c.name.charAt(0).toUpperCase()+'</div>'
+      + '<div style="flex:1"><div class="sale-card-name">'+c.name+'</div>'
+      + '<div class="sale-card-items">'+(c.phone?'📞 '+c.phone:'No phone')+' · '+txns.length+' transaction'+(txns.length!==1?'s':'')+'</div></div>'
+      + '<span class="'+balClass+'" style="font-size:14px">'+balTxt+'</span>'
+      + payBtn
+      + '<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--t3);flex-shrink:0;margin-left:4px"><polyline points="6 9 12 15 18 9"/></svg>'
+      + '</div>'
+      + '<div class="sale-card-body" id="sc-kh-'+c.id+'">'
+      + '<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">'
+      + '<button class="btn btn-outline btn-sm" onclick="openEditCustomer(\''+c.id+'\')">Edit Customer</button>'
+      + (bal>0?'<button class="btn btn-primary btn-sm" onclick="openKhataPayment(\''+c.id+'\')">Record Payment</button>':'')
+      + '<button class="btn btn-danger-ghost" onclick="deleteCustomer(\''+c.id+'\')">Delete</button>'
+      + '</div>'
+      + '<table style="width:100%;border-collapse:collapse;font-size:12.5px">'
+      + '<thead><tr>'
+      + '<th style="text-align:left;color:var(--t3);font-size:10.5px;padding:4px 0 4px;border-bottom:1px solid var(--border)">Date</th>'
+      + '<th style="color:var(--t3);font-size:10.5px;text-align:left">Type</th>'
+      + '<th style="color:var(--t3);font-size:10.5px">Note / Bill</th>'
+      + '<th style="color:var(--t3);font-size:10.5px;text-align:right">Amount</th>'
+      + '</tr></thead><tbody>'
+      + (txns.length ? txns.map(function(t){
+          return '<tr>'
+            +'<td style="padding:5px 0;color:var(--t3);font-size:11.5px">'+fmt_date(t.ts)+'</td>'
+            +'<td><span class="chip '+(t.type==='credit'?'chip-err':'chip-ok')+'">'+(t.type==='credit'?'Credit':'Payment')+'</span></td>'
+            +'<td style="color:var(--t2);font-size:12px">'+(t.note||(t.ref?'Bill '+t.ref:''))+'</td>'
+            +'<td style="text-align:right;font-variant-numeric:tabular-nums;font-weight:700;color:'+(t.type==='credit'?'var(--err)':'var(--ok)')+'">'+inr(t.amount)+'</td>'
+            +'</tr>';
+        }).join('') : '<tr><td colspan="4" style="text-align:center;color:var(--t3);padding:14px">No transactions yet</td></tr>')
+      + '</tbody></table></div></div>';
+  }).join('');
+}
+
+let _khataPayCid = null;
+
+function openKhataPayment(cid) {
+  const c = customers.find(x=>x.id===cid);
+  if (!c) return;
+  _khataPayCid = cid;
+  const bal = customerBalance(cid);
+  document.getElementById('khata-pay-cname').textContent = c.name + (c.phone ? ' · ' + c.phone : '');
+  document.getElementById('khata-pay-bal').textContent = 'Outstanding: ' + inr(bal);
+  document.getElementById('khata-pay-amount').value = '';
+  document.getElementById('khata-pay-note').value = '';
+  openModal('modal-khata-pay');
+}
+
+function saveKhataPayment() {
+  const amount = parseFloat(document.getElementById('khata-pay-amount').value);
+  const note   = document.getElementById('khata-pay-note').value.trim() || 'Payment received';
+  if (!amount || amount <= 0) { showToast('Enter payment amount', 'warn'); return; }
+  khata.push({id:'kh'+Date.now(), customerId:_khataPayCid, type:'payment', amount:+amount.toFixed(2), ref:'', note, ts:Date.now()});
+  saveData();
+  closeModal('modal-khata-pay');
+  renderKhata();
+  updateSidebarStats();
+  const c = customers.find(x=>x.id===_khataPayCid);
+  showToast('₹' + amount.toFixed(0) + ' payment recorded for ' + (c?c.name:'customer'), 'ok');
+}
+
+// ── Purchases ─────────────────────────────────────────
+let _purchItems = [];
+
+function nextPONo() {
+  const nums = purchases.map(p=>parseInt(p.billNo.replace('PO-',''))||0);
+  return 'PO-'+String((nums.length?Math.max(...nums):0)+1).padStart(3,'0');
+}
+
+function openNewPurchase() {
+  _purchItems = [];
+  document.getElementById('purch-supplier').value = '';
+  document.getElementById('purch-items-body').innerHTML = '';
+  document.getElementById('purch-grand-total').textContent = '₹0.00';
+  addPurchItem();
+  openModal('modal-purchase');
+}
+
+function addPurchItem() {
+  var i = _purchItems.length;
+  _purchItems.push({id:'', name:'', qty:1, cost:0, unit:'piece', active:true});
+  var body = document.getElementById('purch-items-body');
+  var row = document.createElement('tr');
+  row.id = 'pi-row-'+i;
+  row.innerHTML = '<td style="padding:5px 4px"><div style="position:relative">'
+    + '<input type="text" class="form-input" style="font-size:12px;padding:6px 8px" placeholder="Product name…" id="pi-name-'+i+'" oninput="showPurchItemDD('+i+')" autocomplete="off">'
+    + '<div class="item-dropdown" id="pi-dd-'+i+'" style="left:0;right:0;font-size:12px"></div>'
+    + '</div></td>'
+    + '<td style="padding:5px 4px"><input type="number" class="form-input" style="font-size:12px;padding:6px 8px;width:66px" id="pi-qty-'+i+'" value="1" min="1" oninput="updatePurchRow('+i+')"></td>'
+    + '<td style="padding:5px 4px"><input type="number" class="form-input" style="font-size:12px;padding:6px 8px;width:80px" id="pi-cost-'+i+'" value="0" min="0" step="0.5" oninput="updatePurchRow('+i+')"></td>'
+    + '<td style="padding:5px 4px;text-align:right;font-weight:700;font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap" id="pi-total-'+i+'">₹0</td>'
+    + '<td style="padding:5px 4px"><button type="button" class="btn btn-danger-ghost btn-sm" onclick="removePurchRow('+i+')">✕</button></td>';
+  body.appendChild(row);
+  document.getElementById('pi-name-'+i).focus();
+}
+
+function showPurchItemDD(i) {
+  var q = document.getElementById('pi-name-'+i).value.trim().toLowerCase();
+  var dd = document.getElementById('pi-dd-'+i);
+  if (!q || !dd) return;
+  var matches = products.filter(function(p){return p.name.toLowerCase().includes(q);}).slice(0,5);
+  if (!matches.length) { dd.classList.remove('open'); return; }
+  dd.innerHTML = matches.map(function(p){
+    return '<div class="item-opt" onclick="selectPurchItem('+i+',\''+p.id+'\')">'
+      +'<div><div class="item-opt-name" style="font-size:12px">'+p.name+'</div>'
+      +'<div class="item-opt-cat">'+p.cat+' · last cost '+( p.cost?inr(p.cost):'?')+'</div></div></div>';
+  }).join('');
+  dd.classList.add('open');
+}
+
+function selectPurchItem(i, pid) {
+  var p = products.find(function(x){return x.id===pid;});
+  if (!p) return;
+  _purchItems[i] = Object.assign(_purchItems[i], {id:p.id, name:p.name, unit:p.unit, cost:p.cost||0});
+  document.getElementById('pi-name-'+i).value = p.name;
+  document.getElementById('pi-cost-'+i).value = p.cost||0;
+  document.getElementById('pi-dd-'+i).classList.remove('open');
+  updatePurchRow(i);
+}
+
+function updatePurchRow(i) {
+  if (!_purchItems[i]) return;
+  var qty  = parseFloat(document.getElementById('pi-qty-'+i).value)||0;
+  var cost = parseFloat(document.getElementById('pi-cost-'+i).value)||0;
+  _purchItems[i].qty  = qty;
+  _purchItems[i].cost = cost;
+  var tot = document.getElementById('pi-total-'+i);
+  if (tot) tot.textContent = inrShort(qty*cost);
+  var grand = _purchItems.filter(function(it){return it&&it.active;}).reduce(function(a,it){return a+(it.qty||0)*(it.cost||0);},0);
+  var el = document.getElementById('purch-grand-total');
+  if (el) el.textContent = inr(grand);
+}
+
+function removePurchRow(i) {
+  var row = document.getElementById('pi-row-'+i);
+  if (row) row.remove();
+  if (_purchItems[i]) _purchItems[i].active = false;
+  var grand = _purchItems.filter(function(it){return it&&it.active;}).reduce(function(a,it){return a+(it.qty||0)*(it.cost||0);},0);
+  var el = document.getElementById('purch-grand-total');
+  if (el) el.textContent = inr(grand);
+}
+
+function savePurchase() {
+  var supplier = document.getElementById('purch-supplier').value.trim();
+  if (!supplier) { showToast('Enter supplier name', 'warn'); return; }
+  var items = _purchItems.filter(function(it){return it&&it.active&&it.qty>0;});
+  items.forEach(function(it){
+    if (!it.name) { var nd = document.getElementById('pi-name-'+_purchItems.indexOf(it)); if (nd) it.name=nd.value.trim(); }
+  });
+  items = items.filter(function(it){return it.name;});
+  if (!items.length) { showToast('Add at least one item', 'warn'); return; }
+
+  items.forEach(function(it) {
+    if (it.id) {
+      var p = products.find(function(x){return x.id===it.id;});
+      if (p) { p.stock += it.qty; if (it.cost) p.cost = it.cost; }
+    }
+  });
+
+  var subtotal = items.reduce(function(a,it){return a+(it.qty||0)*(it.cost||0);},0);
+  var po = {id:'po'+Date.now(), billNo:nextPONo(), supplier:supplier, ts:Date.now(),
+             items:items.map(function(it){return {id:it.id,name:it.name,qty:it.qty,cost:it.cost,unit:it.unit||'piece'};}),
+             subtotal:+subtotal.toFixed(2)};
+  purchases.push(po);
+  saveData();
+  closeModal('modal-purchase');
+  renderPurchases();
+  renderInventory();
+  updateSidebarStats();
+  showToast(po.billNo + ' saved — stock updated for ' + items.length + ' item'+(items.length!==1?'s':''), 'ok');
+}
+
+function renderPurchases() {
+  var totalSpend = purchases.reduce(function(a,p){return a+p.subtotal;},0);
+  var el = document.getElementById('purch-total-spend');
+  if (el) el.textContent = inr(totalSpend);
+
+  var list = document.getElementById('purch-list');
+  if (!list) return;
+  if (!purchases.length) {
+    list.innerHTML = '<div class="empty"><div class="empty-ico">📦</div><div class="empty-txt">No purchases recorded yet. Record your first purchase to track stock and costs.</div></div>';
+    return;
+  }
+  var sorted = purchases.slice().sort(function(a,b){return b.ts-a.ts;});
+  list.innerHTML = sorted.map(function(p){
+    return '<div class="sale-card">'
+      +'<div class="sale-card-head" onclick="toggleSaleCard(\'po-'+p.id+'\')">'
+      +'<span class="sale-card-no">'+p.billNo+'</span>'
+      +'<div style="flex:1"><div class="sale-card-name">'+p.supplier+'</div>'
+      +'<div class="sale-card-items">'+p.items.length+' item'+(p.items.length!==1?'s':'')+' · '+fmt_date(p.ts)+'</div></div>'
+      +'<span class="sale-card-total">'+inr(p.subtotal)+'</span>'
+      +'<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--t3);flex-shrink:0"><polyline points="6 9 12 15 18 9"/></svg>'
+      +'</div>'
+      +'<div class="sale-card-body" id="sc-po-'+p.id+'">'
+      +'<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:8px">'
+      +'<thead><tr>'
+      +'<th style="text-align:left;color:var(--t3);font-size:10.5px;padding:4px 0;border-bottom:1px solid var(--border)">Product</th>'
+      +'<th style="text-align:center;color:var(--t3);font-size:10.5px">Qty</th>'
+      +'<th style="text-align:right;color:var(--t3);font-size:10.5px">Cost/Unit</th>'
+      +'<th style="text-align:right;color:var(--t3);font-size:10.5px">Total</th>'
+      +'</tr></thead><tbody>'
+      +p.items.map(function(i){
+        return '<tr>'
+          +'<td style="padding:5px 0;font-weight:600">'+i.name+'</td>'
+          +'<td style="text-align:center;color:var(--t2)">'+i.qty+' '+i.unit+'</td>'
+          +'<td style="text-align:right;font-variant-numeric:tabular-nums">'+inr(i.cost)+'</td>'
+          +'<td style="text-align:right;font-variant-numeric:tabular-nums;font-weight:700">'+inr(i.qty*i.cost)+'</td>'
+          +'</tr>';
+      }).join('')
+      +'</tbody></table>'
+      +'<div style="display:flex;justify-content:flex-end;font-weight:800;font-size:14px;border-top:1px dashed var(--border);padding-top:8px;font-variant-numeric:tabular-nums">'
+      +'Total Paid: '+inr(p.subtotal)+'</div></div></div>';
+  }).join('');
 }
 
 // ── Auth ──────────────────────────────────────────────
