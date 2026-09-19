@@ -597,7 +597,7 @@ button,select,input{font-family:inherit}
               </div>
               <div>
                 <div class="idc-field-label">Quantity</div>
-                <input class="idc-field-input" id="idc-qty" type="number" min="1" step="1" value="1" oninput="updateIdcTotal()">
+                <input class="idc-field-input" id="idc-qty" type="number" min="0.01" step="0.5" value="1" oninput="updateIdcTotal()">
               </div>
             </div>
             <div id="idc-savings" style="display:none;font-size:11px;color:var(--ok);font-weight:700;padding:4px 0 0"></div>
@@ -1152,12 +1152,11 @@ function loadData() {
     }
     const pp = localStorage.getItem(PRODUCTS_KEY);
     products = pp ? JSON.parse(pp) : SEED_PRODUCTS.map(p=>({...p}));
-    // Backfill mrp for products loaded from old localStorage (before mrp was added)
+    // Backfill mrp and priceTiers for products loaded from old localStorage
     products.forEach(p => {
-      if (!p.mrp) {
-        const seed = SEED_PRODUCTS.find(s => s.id === p.id);
-        if (seed && seed.mrp) p.mrp = seed.mrp;
-      }
+      const seed = SEED_PRODUCTS.find(s => s.id === p.id);
+      if (!p.mrp && seed && seed.mrp) p.mrp = seed.mrp;
+      if (!p.priceTiers && seed && seed.priceTiers) p.priceTiers = seed.priceTiers;
     });
     const sl = localStorage.getItem(SALES_KEY);
     sales = sl ? JSON.parse(sl) : seedSales();
@@ -1547,7 +1546,7 @@ function pickItem(pid) {
 
 function updateIdcTotal() {
   const sell = parseFloat(document.getElementById('idc-sell').value) || 0;
-  const qty  = parseInt(document.getElementById('idc-qty').value)   || 0;
+  const qty  = parseFloat(document.getElementById('idc-qty').value)   || 0;
   document.getElementById('idc-total').textContent = inr(sell * qty);
 
   const p = _idcPid ? products.find(x => x.id === _idcPid) : null;
@@ -1570,7 +1569,7 @@ function addFromDetail() {
   const p = products.find(x => x.id === _idcPid);
   if (!p) return;
   const sell = parseFloat(document.getElementById('idc-sell').value);
-  const qty  = parseInt(document.getElementById('idc-qty').value);
+  const qty  = parseFloat(document.getElementById('idc-qty').value);
   if (!sell || sell <= 0) { showToast('Enter a valid selling price','warn'); return; }
   if (!qty  || qty  <= 0) { showToast('Enter a valid quantity','warn'); return; }
   if (qty > p.stock)      { showToast('Only '+p.stock+' '+p.unit+' in stock','warn'); return; }
