@@ -601,7 +601,8 @@ button,select,input{font-family:inherit}
               </div>
               <div class="idc-size-col" id="idc-size-col">
                 <div class="idc-field-label">Size / Pack</div>
-                <select class="idc-size-select" id="idc-size" onchange="onSizeChange()"></select>
+                <input class="idc-field-input" id="idc-size" list="idc-size-list" autocomplete="off" placeholder="e.g. 500g" oninput="onSizeChange()">
+                <datalist id="idc-size-list"></datalist>
               </div>
             </div>
             <div id="idc-savings" style="display:none;font-size:11px;color:var(--ok);font-weight:700;padding:4px 0 0"></div>
@@ -1537,10 +1538,10 @@ function pickItem(pid) {
   const fieldsEl = document.querySelector('.idc-fields');
   if (p.priceTiers && p.priceTiers.length) {
     _idcTiers = [{label:'1 '+p.unit, price:p.price, mrp:p.mrp||0}, ...p.priceTiers];
-    sizeSel.innerHTML = _idcTiers.map((t,i) =>
-      `<option value="${i}">${t.label}</option>`
+    document.getElementById('idc-size-list').innerHTML = _idcTiers.map(t =>
+      `<option value="${t.label}">`
     ).join('');
-    sizeSel.value = '0';
+    sizeSel.value = '1 '+p.unit;
     sizeCol.classList.add('show');
     fieldsEl.classList.add('has-size');
   } else {
@@ -2341,16 +2342,16 @@ function renderPurchases() {
 
 // ── Multi-unit Price Tiers ────────────────────────────
 function onSizeChange() {
-  var i = parseInt(document.getElementById('idc-size').value) || 0;
-  var t = _idcTiers[i];
-  if (!t) return;
-  document.getElementById('idc-sell').value = t.price;
-  var mrpEl = document.getElementById('idc-mrp');
-  if (mrpEl) mrpEl.textContent = t.mrp ? inr(t.mrp) : '—';
-  document.getElementById('idc-qty').value = 1;
+  var label = (document.getElementById('idc-size').value || '').trim();
+  var t = _idcTiers.find(function(x){ return x.label === label; });
+  if (t) {
+    document.getElementById('idc-sell').value = t.price;
+    var mrpEl = document.getElementById('idc-mrp');
+    if (mrpEl) mrpEl.textContent = t.mrp ? inr(t.mrp) : '—';
+    document.getElementById('idc-qty').value = 1;
+  }
   updateIdcTotal();
 }
-function selectTier(i) { onSizeChange(); } // legacy compat
 
 function _appendTierRow(t) {
   var tbody = document.getElementById('tier-rows');
