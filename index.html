@@ -366,6 +366,7 @@ button,select,input{font-family:inherit}
 </style>
 
 <script src="https://accounts.google.com/gsi/client" async></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <!-- LOGIN SCREEN -->
 <div class="login-overlay" id="login-overlay" style="display:none">
@@ -868,6 +869,11 @@ button,select,input{font-family:inherit}
     </div>
     <div class="modal-body" style="padding:0">
       <div id="receipt-content"></div>
+      <div id="receipt-qr-section" style="display:none;text-align:center;padding:16px;border-top:1px dashed var(--border)">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);margin-bottom:10px">Scan to Pay via UPI</div>
+        <div id="receipt-qr-canvas" style="display:inline-block"></div>
+        <div id="receipt-qr-upi-id" style="font-size:11px;color:var(--t2);margin-top:8px"></div>
+      </div>
     </div>
     <div class="modal-foot no-print" style="flex-direction:column;gap:10px;align-items:stretch">
       <div style="display:flex;gap:8px;align-items:center">
@@ -924,9 +930,15 @@ button,select,input{font-family:inherit}
           <input class="form-input" id="set-gst" type="text" placeholder="e.g. 07AABCS1234A1Z5">
         </div>
       </div>
-      <div class="form-group" style="max-width:180px">
-        <label class="form-label">GST Rate (%)</label>
-        <input class="form-input" id="set-gst-rate" type="number" min="0" max="28" step="0.5" value="5">
+      <div class="form-row">
+        <div class="form-group" style="max-width:180px">
+          <label class="form-label">GST Rate (%)</label>
+          <input class="form-input" id="set-gst-rate" type="number" min="0" max="28" step="0.5" value="5">
+        </div>
+        <div class="form-group">
+          <label class="form-label">UPI ID <span style="font-weight:400;font-size:10.5px;color:var(--t3)">(for QR on UPI bills)</span></label>
+          <input class="form-input" id="set-upi" type="text" placeholder="e.g. maqbool@upi or 9876543210@paytm">
+        </div>
       </div>
       <div class="divider"></div>
       <div style="font-size:12px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Backup &amp; Restore · Data Sync</div>
@@ -1801,6 +1813,24 @@ function showReceipt(saleId) {
 
   document.getElementById('receipt-content').innerHTML = html;
   document.getElementById('receipt-phone').value = '';
+
+  // UPI QR code
+  var qrSection = document.getElementById('receipt-qr-section');
+  var qrCanvas  = document.getElementById('receipt-qr-canvas');
+  var upiId = (settings.upiId || '').trim();
+  if (sale.paymentMode === 'upi' && upiId && typeof QRCode !== 'undefined') {
+    qrCanvas.innerHTML = '';
+    var upiUrl = 'upi://pay?pa=' + encodeURIComponent(upiId)
+      + '&pn=' + encodeURIComponent(settings.storeName || 'Store')
+      + '&am=' + sale.total.toFixed(2)
+      + '&cu=INR&tn=' + encodeURIComponent('Bill ' + sale.billNo);
+    new QRCode(qrCanvas, {text: upiUrl, width: 180, height: 180, correctLevel: QRCode.CorrectLevel.M});
+    document.getElementById('receipt-qr-upi-id').textContent = upiId;
+    qrSection.style.display = '';
+  } else {
+    qrSection.style.display = 'none';
+  }
+
   openModal('modal-receipt');
 }
 
@@ -1919,6 +1949,7 @@ function openSettings() {
   document.getElementById('set-phone').value = settings.phone || '';
   document.getElementById('set-gst').value = settings.gstNumber || '';
   document.getElementById('set-gst-rate').value = settings.gstRate || 5;
+  document.getElementById('set-upi').value = settings.upiId || '';
   try {
     const ts = localStorage.getItem('kb_last_export');
     const el = document.getElementById('backup-last-export');
@@ -1934,6 +1965,7 @@ function saveSettings() {
   settings.phone     = document.getElementById('set-phone').value.trim();
   settings.gstNumber = document.getElementById('set-gst').value.trim();
   settings.gstRate   = parseFloat(document.getElementById('set-gst-rate').value) || 5;
+  settings.upiId     = document.getElementById('set-upi').value.trim();
   saveData();
   document.getElementById('sb-store-name').textContent = settings.storeName;
   closeModal('modal-settings');
